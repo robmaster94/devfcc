@@ -1,7 +1,7 @@
 {
   "name": "api-rest",
   "version": "1.0.0",
-  "description": "Proyecto de API RESTful con Node.js y Express",
+  "description": "Proyecto de API RESTful con Node.js y Express. Creación app MEAN stack",
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
@@ -18,6 +18,8 @@
     "jwt-simple": "^0.5.1",
     "moment": "^2.18.1",
     "mongoose": "^4.12.1",
+    "passport": "^0.4.0",
+    "path": "^0.12.7",
     "ws": "^3.2.0"
   },
   "devDependencies": {

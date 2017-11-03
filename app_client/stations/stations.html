@@ -1,0 +1,40 @@
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" src="stations.css">
+</head>
+
+<hr class="section-heading-spacer">
+<div class="clearfix"></div>
+
+<h2 style="color: blueviolet; text-align: center;">Stations</h2>
+
+<div class="container" ng-init="showStations()" ng-show="stations">
+    
+    <p>Lista de estaciones:</p> 
+
+    <table border="3px">
+        <th>Name</th>
+        <th>City</th>
+        <th>Address</th>
+        <tr ng-repeat="s in stations">
+            <td>{{s.name}}</td>
+            <td>{{s.city}}</td>
+            <td>{{s.address}}</td>
+            <td><button ng-click="panelLoginStation(s.name)">Administrate</button></td>
+        </tr>
+    </table>
+    <div ng-show="stations">
+        <h3>Add a station</h3>
+        <form name="addStationForm" accept-charset="utf-8">
+            <p>Name: <input type="text" ng-model="stationName" required></p>
+            <p>City: <input type="text" ng-model="city" required></p>
+            <p>Address: <input type="text" ng-model="address" required></p>
+            <p>Master key: <input type="password" min="1" ng-model="masterpass" required></p>
+            <p>Repeat your master key: <input type="password" min="1" ng-model="repmasterpass" required>
+                <label ng-if="(masterpass !== repmasterpass) && (masterpass && repmasterpass)">Las contraseñas no coinciden</label>
+                <label ng-if="(masterpass === repmasterpass) && (masterpass && repmasterpass)">Coinciden<img ng-src="img/ok.png"></label>    
+            </p>
+            <p><button type="submit" ng-show="addStationForm.$valid" ng-click="addStation(stationName,city,address,masterpass)">Add</button></p>
+        </form>
+    </div>
+</div>

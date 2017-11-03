@@ -1,0 +1,92 @@
+<html>
+
+<body>
+    <form name="regForm" accept-charset="utf-8" ng-controller="registroCtrl">
+        <div class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="text-center bg-primary">SIGN UP</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4>User: </h4>
+                        <input class="form-control input-md" type="text" ng-model="user" min="4" max="25">
+                    </div>
+                    <div class="col-md-4">
+                        <h4>Pass: </h4>
+                        <input class="form-control input-md" type="password" ng-model="pass" min="5" max="50" required>
+                    </div>
+                    <div class="col-md-4 text-left">
+                        <h4>Repeat your pass: </h4>
+                        <input class="form-control input-md" type="password" ng-model="repass" min="5" max="50" required>
+                        <label class="label-danger" ng-show="(pass!=repass) && (pass && repass)">Passwords don't match</label>
+                        <label class="label-success" ng-show="(pass==repass) && (pass && repass) && ((pass.length>=5) && (repass.length>=5))">OK</label>
+                        <label class="label-danger" ng-show="(pass && repass) && ((pass.length<5) && (repass.length<5))">Minimum 5 characters</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 text-left">
+                        <h4>Name: </h4>
+                        <input class="form-control input-md" type="text" ng-model="name" required>
+                    </div>
+                    <div class="col-md-4 text-left">
+                        <h4>Surname: </h4>
+                        <input class="form-control input-md" type="text" ng-model="surname" required>
+                    </div>
+                    <div class="col-md-4 text-left">
+                        <h4>Age: </h4>
+                        <input class="form-control input-md" type="number" min="18" max="120" ng-model="age" required>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 text-left">
+                        <h4>Sex: </h4>
+                        <select ng-model="sex" class="form-control input-md" required>
+                            <option value>--Selecciona--</option>
+                            <option value="Masculino">Male</option>
+                            <option value="Femenino">Female</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 text-left">
+                        <h4>Rol: </h4>
+                        <select ng-model="rol" class="form-control input-md" required>
+                            <option value>--Selecciona--</option>
+                            <option value="user">User</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 text-left">
+                        <h4>Photo (optional): </h4>
+                        <input type="file" file-input="files" accept="image/*" ng-model="pic">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section text-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button class="btn btn-primary btn-md btn-block" ng-click="signUser(user,pass,name,surname,age,sex,rol,pic)" ng-show="regForm.$valid">Sign up</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</body>
+
+</html>

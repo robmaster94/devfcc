@@ -1,5 +1,7 @@
 'use strict'
 
+const ip = require('ip')
+
 exports.createWebSocketServer = function (req,res) {
     //console.log('Función OCPP')
     //return res.status(200).send({message: 'Prueba ocppCtrl'})
@@ -8,7 +10,10 @@ exports.createWebSocketServer = function (req,res) {
     var port = process.env.PORT || 3050;
     var ws = new Server({port: port});
     var contador = 0;
+	//var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
 
+	var ipAdress = ip.address();
+	
     ws.on('connection', function(w){
 
       w.on('message', function(msg){
@@ -34,6 +39,7 @@ exports.createWebSocketServer = function (req,res) {
 
     if(ws){
       // res.status(200).send({message:`Servidor WebSocket ${ws} correctamente encendido`})
-      console.log('WebSocket Server is up')
+      console.log(`Websocket server is up, ip Address ${ipAdress}`)
+	  //console.log('Websocket server is up');
     }
 }

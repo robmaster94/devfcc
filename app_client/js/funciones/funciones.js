@@ -1,11 +1,11 @@
 //var wsUri = "ws://10.162.254.65:8081/OCPPGateway15/CentralSystemService"; //dirección CSS estación de recarga
-// var wsUri = "ws://10.162.254.65:8081/OCPPGateway15/CentralSystemService/EFACECES1"; //websocket OCPP ESTACIÓN RECARGA MURCIA
-// var wsUri = "ws://"; //websocket OCPP ESTACIÓN RECARGA WALLBOX
+var wsUri = "ws://10.162.254.65:8081/OCPPGateway15/CentralSystemService/EFACECES1"; //websocket OCPP ESTACIÓN RECARGA MURCIA
+var wsUri = "ws://"; //websocket OCPP ESTACIÓN RECARGA WALLBOX
 
-// var wsUriLocal = 0; //igual que la anterior, cambiando el identificador de la estación de recarga
+var wsUriLocal = 0; //igual que la anterior, cambiando el identificador de la estación de recarga
 
-// var xhr;
-// var contador = 0;
+var xhr;
+var contador = 0;
 
 function conectarElectrolinera() {
 

@@ -1,93 +1,74 @@
+<!DOCTYPE html>
 <html>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-
 <body>
-    <div id="fullcarousel-example" data-interval="5000" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-            <div class="item active">
-                <img src="img/fondo_alter_2.jpg">
-                <div class="carousel-caption">
-                    <h1>Future Charge Cloud</h1>
-                    <p class="lead">Welcome to your new, best solution to monitorize EV charge stations</p>
-                </div>
-            </div>
-            <div class="item">
-                <img src="https://unsplash.imgix.net/photo-1413920346627-a4389f0abd61?w=1024&amp;q=50&amp;fm=jpg&amp;s=cfd43f65c77577abb3bf29c0d6a0775f">
-                <div class="carousel-caption">
-                    <h1>Future Charge Cloud</h1>
-                    <p class="lead">Always trying to bring you the best services in EV charge stations monitoring</p>
-                </div>
-            </div>
-        </div>
-        <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev"><i class="icon-prev fa fa-angle-left"></i></a>
-        <a class="right carousel-control" href="#carousel-example-generic" data-slide="next"><i class="icon-next fa fa-angle-right"></i></a>
-    </div>
-    <div class="section section-info">
-        <div class="container">
+    <div class="py-5 text-center opaque-overlay" style="background-image: url(img/fondo_alter_2.jpg)">
+        <div class="container py-5">
             <div class="row">
-                <div class="col-md-6">
-                    <img src="https://unsplash.imgix.net/photo-1423347834838-5162bb452ca7?w=1024&amp;q=50&amp;fm=jpg&amp;s=c255e589621f06513c1d123c7323fe9c" class="img-responsive">
-                </div>
-                <div class="col-md-6">
-                    <h1 class="text-center">A title</h1>
-
-                    <p class="lead">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi.</p>
+                <div class="col-md-12 text-white">
+                    <h1 class="display-3 mb-4">Future Charge Cloud</h1>
+                    <p class="lead mb-5">Welcome to your new, best solution to monitorize EV charge stations</p>
+                    <a href="#!/registro" ng-if="it == false" class="btn btn-lg btn-outline-light mx-1">Sign up</a>
+                    <a href="#!/login" ng-if="it == false" class="btn btn-lg btn-primary mx-1">Login</a>
                 </div>
             </div>
         </div>
     </div>
-    <div class="section section-info">
+    <div class="py-5">
         <div class="container">
             <div class="row">
-                <div class="col-md-6">
-                    <h1 class="text-center">A title</h1>
-
-                    <p class="lead text-justify">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi.</p>
-                </div>
-                <div class="col-md-6">
-                    <img src="https://unsplash.imgix.net/photo-1422222948315-28aadb7a2cb8?w=1024&amp;q=50&amp;fm=jpg&amp;s=cfeadbd7a991e58b553bee29a7eeca55" class="img-responsive">
+                <div class="col-md-12">
+                    <h1 class="text-center display-3">¿Who are we?</h1>
+                    <p class="text-justify">Future Charge Cloud is an association between Politechnical University of Cartagena and an Spanish enterprise specialized in researching technical solutions that involve bringing renewable energy to society.</p>
                 </div>
             </div>
         </div>
     </div>
-    <footer class="section section-primary">
+    <div class="py-5 bg-primary text-white">
         <div class="container">
             <div class="row">
-                <div class="col-sm-6">
-                    <h1 class="text-left">Future Charge Cloud</h1>
-                    <p class="lead text-justify">Association between Politechnical University of Cartagena and an Spanish enterprise specialized in researching technical solutions that involve bringing renewable energy to society</p>
+                <div class="col-md-6">
+                    <img class="d-block img-fluid my-3 align-self-center" ng-src="img/solventie.jpg"> </div>
+                <div class="col-md-6">
+                    <h1>Contact us</h1>
+                    <p>We would love to hear from you</p>
+                    <form>
+                        <div class="form-group"> <label for="InputName">Your name</label>
+                            <input type="text" class="form-control" id="InputName" placeholder="Your name"> </div>
+                        <div class="form-group"> <label for="InputEmail1">Email address</label>
+                            <input type="email" class="form-control" id="InputEmail1" placeholder="Enter email"> </div>
+                        <div class="form-group"> <label for="Textarea">Write here</label> <textarea class="form-control" id="Textarea" rows="3" placeholder="Type here"></textarea> </div>
+                        <button type="submit" class="btn btn-secondary">Submit</button>
+                    </form>
                 </div>
-                <div class="col-sm-6">
-                    <p class="lead text-info text-right">
+            </div>
+        </div>
+    </div>
+    <div class="py-5 bg-dark text-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center align-self-center">
+                    <p class="mb-5"> <strong>Future Charge Cloud</strong>
                         <br>Murcia
                         <br>Spain, 30820
-                        <br>Designed with Pingendo by Francisco Sánchez Sánchez</p>
-                    <div class="row">
-                        <div class="col-md-12 hidden-lg hidden-md hidden-sm text-left">
-                            <a href="#"><i class="fa fa-3x fa-fw fa-instagram text-inverse"></i></a>
-                            <a href="#"><i class="fa fa-3x fa-fw fa-twitter text-inverse"></i></a>
-                            <a href="#"><i class="fa fa-3x fa-fw fa-facebook text-inverse"></i></a>
-                            <a href="#"><i class="fa fa-3x fa-fw fa-github text-inverse"></i></a>
+                        <br> <abbr title="Phone">P:</abbr> (34)968123456 </p>
+                    <div class="my-3 row">
+                        <div class="col-4">
+                            <a href="https://www.facebook.com" target="blank"><i class="fa fa-3x fa-facebook"></i></a>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 hidden-xs text-right">
-                            <a href="#"><i class="fa fa-3x fa-fw fa-instagram text-inverse"></i></a>
-                            <a href="#"><i class="fa fa-3x fa-fw fa-twitter text-inverse"></i></a>
-                            <a href="#"><i class="fa fa-3x fa-fw fa-facebook text-inverse"></i></a>
-                            <a href="#"><i class="fa fa-3x fa-fw fa-github text-inverse"></i></a>
+                        <div class="col-4">
+                            <a href="https://twitter.com" target="blank"><i class="fa fa-3x fa-twitter"></i></a>
+                        </div>
+                        <div class="col-4">
+                            <a href="https://www.instagram.com" target="blank"><i class="fa fa-3x fa-instagram"></i></a>
                         </div>
                     </div>
                 </div>
+                <div class="col-md-6 p-0">
+                    <img class="img-fluid" ng-src="img/solventie.jpg"></div>
             </div>
         </div>
-    </footer>
-
-
+    </div>
 </body>
 
 </html>

@@ -1,0 +1,32 @@
+<head>
+    <link rel="stylesheet" type="text/css" href="login/login.css">
+</head>
+
+<hr class="section-heading-spacer">
+
+<h2 style="color: blueviolet; text-align: center;">LOGIN</h2>
+
+<div class="container">
+    <div class="col-sm-12 col-lg-12">
+        <h2 class="section-heading">Login usuarios</h2>
+        <form name="userForm" accept-charset="utf8" novalidate>
+            <div class="col-sm-12">
+                <label>User: </label><input class="form-control" type="text" ng-model="username" required>
+            </div>
+            <div class="col-sm-12">
+                <label>Pass: </label><input class="form-control" type="password" ng-model="password" required>
+            </div>            
+                
+            <button class="btn btn-default btn-md" ng-show="userForm.$valid" ng-click="login(username,password)">Login</button>
+        </form>
+    </div>
+</div>
+
+<!--        <div class="col-lg-5 col-sm-6">
+            <h2 class="section-heading">Si eres una organización:</h2>
+            <form name="orgForm" accept-charset="utf8" novalidate>
+                <p>Company CIF: <input type="text" ng-model="compcif" required></p>
+                <p>Pass: <input type="password" ng-model="comppass" required></p><br>
+                <p><button ng-show="orgForm.$valid" ng-click="login(compcif,comppass)">Login</button></p>
+            </form>
+        </div>-->

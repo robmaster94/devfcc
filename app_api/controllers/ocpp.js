@@ -6,8 +6,9 @@ exports.createWebSocketServer = function (req,res) {
     //console.log('Función OCPP')
     //return res.status(200).send({message: 'Prueba ocppCtrl'})
     //res.send({message: 'Prueba ocpp'})
-    var Server = require('ws').Server;
-    var port = process.env.PORT || 3050;
+	//var Server = require('ws').Server;
+    var WebSocketServer = require('ws').Server;
+    var port = /*process.env.PORT || */ 3050;
     //var ws = new Server({port: port});
 	var ws = new WebSocketServer({port: port});
     var contador = 0;

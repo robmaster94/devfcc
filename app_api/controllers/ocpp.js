@@ -1,47 +1,36 @@
 'use strict'
 
-const ip = require('ip')
+//const ip = require('ip')
 
-exports.createWebSocketServer = function (req,res) {
-    //console.log('Función OCPP')
-    //return res.status(200).send({message: 'Prueba ocppCtrl'})
-    //res.send({message: 'Prueba ocpp'})
-	//var Server = require('ws').Server;
-    var WebSocketServer = require('ws').Server;
-    var port = /*process.env.PORT || */ 3050;
-    //var ws = new Server({port: port});
-	var ws = new WebSocketServer({port: port});
-    var contador = 0;
-	//var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
+exports.createWebSocketServer = function (req, res) {
+    var WebSocketServer = require("ws").Server
+    var http = require("http")
+    var express = require("express")
+    var app = express()
+    var port = process.env.PORT || 5000
 
-	var ipAdress = ip.address();
-	
-    ws.on('connection', function(w){
+    app.use(express.static(__dirname + "/"))
 
-      w.on('message', function(msg){
-        console.log('message from client, msg: '+msg);
-        contador++
-        w.send(`Received! You sended the message ${contador} times`)
-      })
+    var server = http.createServer(app)
+    server.listen(port)
 
-      w.on('close', function() {
-        console.log('closing connection');
-      })
+    console.log("http server listening on %d", port)
 
-      w.on('error', function(){
-    	console.log('Error');
-      })
-
-      w.on('open', function(msg){
-        console.log("Mensaje: "+msg);
-    	console.log('Conectado al servidor '+Server);
-      })
-
+    var wss = new WebSocketServer({
+        server: server
     })
+    console.log("websocket server created")
 
-    if(ws){
-      // res.status(200).send({message:`Servidor WebSocket ${ws} correctamente encendido`})
-      console.log(`Websocket server is up, ip Address ${ipAdress}, port ${port}`)
-	  //console.log('Websocket server is up');
-    }
+    wss.on("connection", function (ws) {
+        var id = setInterval(function () {
+            ws.send(JSON.stringify(new Date()), function () {})
+        }, 1000)
+
+        console.log("websocket connection open")
+
+        ws.on("close", function () {
+            console.log("websocket connection close")
+            clearInterval(id)
+        })
+    })
 }

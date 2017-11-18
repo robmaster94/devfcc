@@ -8,7 +8,8 @@ exports.createWebSocketServer = function (req,res) {
     //res.send({message: 'Prueba ocpp'})
     var Server = require('ws').Server;
     var port = process.env.PORT || 3050;
-    var ws = new Server({port: port});
+    //var ws = new Server({port: port});
+	var ws = new WebSocketServer({port: port});
     var contador = 0;
 	//var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
 

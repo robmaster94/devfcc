@@ -1,7 +1,7 @@
 'use strict'
 
 //const ip = require('ip')
-const app = require('./app.js')
+const app = require('./../app.js')
 
 exports.createWebSocketServer = function (req, res) {
     var WebSocketServer = require("ws").Server

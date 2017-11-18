@@ -41,7 +41,7 @@ exports.createWebSocketServer = function (req,res) {
 
     if(ws){
       // res.status(200).send({message:`Servidor WebSocket ${ws} correctamente encendido`})
-      console.log(`Websocket server is up, ip Address ${ipAdress}`)
+      console.log(`Websocket server is up, ip Address ${ipAdress}, port ${port}`)
 	  //console.log('Websocket server is up');
     }
 }

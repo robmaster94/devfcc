@@ -1,15 +1,16 @@
 'use strict'
 
 //const ip = require('ip')
+const app = require('../app')
 
 exports.createWebSocketServer = function (req, res) {
     var WebSocketServer = require("ws").Server
     var http = require("http")
     var express = require("express")
-    var app = express()
+    //var app = express()
     var port = 8050
 
-    app.use(express.static(__dirname + "/"))
+    //app.use(express.static(__dirname + "/"))
 
     var server = http.createServer(app)
     server.listen(port)

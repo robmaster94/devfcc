@@ -13,8 +13,10 @@ const ocppRouter = express.Router()
 //ocpp.get('/wallbox-sn2197', ocppCtrl.createWebSocketServer)
 
 ocppRouter.websocket('/wallbox-sn2197' , (info,cb,next) => {
+    var contador = 0;
     cb(function(socket){
-        socket.send('connected!')
+        contador += 1;
+        socket.send('Success! '+contador+' times connected.')
     })
 })
 

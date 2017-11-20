@@ -5,7 +5,7 @@ const bodyParser = require('body-parser')
 const hbs = require('express-handlebars')
 const passport = require('passport');
 const path = require('path')
-const app = express()
+const app = require('express-ws-routes')()
 
 const api = require('./app_api/routes')
 const ocpp = require('./app_api/routes/ocpp')

@@ -14,7 +14,7 @@ mongoose.connect(config.db, (err,res) => {
 
   app.listen(config.port, () => {
     console.log(`API REST corriendo en http://localhost:${config.port}`)
-    var WebSocketServer = require("ws").Server
+    /*var WebSocketServer = require("ws").Server
     var port = 8050
 
     var server = http.createServer(app)
@@ -38,6 +38,6 @@ mongoose.connect(config.db, (err,res) => {
             console.log("websocket connection close")
             clearInterval(id)
         })
-    })
+    })*/
   })
 })

@@ -1,5 +1,7 @@
 'use strict'
 
+const ocppRouter = express.Router()
+
 var contador = 0;
 
 ocppRouter.websocket('/wallbox-sn2197' , (info,cb,next) => {

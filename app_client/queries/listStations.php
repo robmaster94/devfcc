@@ -13,10 +13,10 @@
 
     while ($rs = mysqli_fetch_assoc($result)){
         if ($outp != "") {$outp .= ",";}
-        $outp .= '{"Id":"'  . $rs["id"] . '",';
-        $outp .= '"Name":"'  . $rs["name"] . '",';
-        $outp .= '"City":"'  . $rs["city"] . '",';
-        $outp .= '"Address":"'. $rs["address"]  . '"}';        
+        $outp .= '{"id":"'  . $rs["id"] . '",';
+        $outp .= '"name":"'  . $rs["name"] . '",';
+        $outp .= '"city":"'  . $rs["city"] . '",';
+        $outp .= '"address":"'. $rs["address"]  . '"}';        
     }
 
     $outp = '{"Stations":['.$outp.']}';

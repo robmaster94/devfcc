@@ -31,45 +31,60 @@ angular.module('myApp.registro', ['ngRoute'])
             $scope.$apply();
         };
 
-        $scope.signUser = function (user, pass, reppass, name, surname, age, sex, picUser, rol, favStation, brand, model, conn_type) {
-            var fd = new FormData();
-            fd.append('user', user);
-            fd.append('pass', pass);
-            fd.append('reppass', reppass);
-            fd.append('name', name);
-            fd.append('surname', surname);
-            fd.append('age', age);
-            fd.append('sex', sex);
-            fd.append('picUser', $scope.files[0]);
-            fd.append('rol',rol);
-            fd.append('favStation', favStation);
-            fd.append('brand', brand);
-            fd.append('model', model);
-            fd.append('conn_type', conn_type);
+        $scope.signUser = function (user, pass, name, surname, age, sex, rol, picUser) {
+            if ($scope.files[0]) {
+                //alert("Se enviará formData");
+                var fd = new FormData();
+                fd.append('user', user);
+                fd.append('pass', pass);
+                fd.append('name', name);
+                fd.append('surname', surname);
+                fd.append('age', age);
+                fd.append('sex', sex);
+                fd.append('rol', rol);
+                fd.append('pic', $scope.files[0]);
+                fd.append('tipo', "formData");
 
-            $http.post('registro/insertUser.php', fd, {
-                    transformRequest: angular.identity,
-                    headers: {
-                        'Content-Type': undefined
-                    }
-                })
-                .success(function (d) {
-                    console.log(d);
-                    alert('Usuario creado correctamente');
-                    $location.path('/login');
-                    $window.location.reload();
-                })
-                .error(function (e) {
-                    alert('Error: ' + e);
+                $http.post('registro/insertUser.php', fd, {
+                        transformRequest: angular.identity,
+                        headers: {
+                            'Content-Type': undefined
+                        }
+                    })
+                    .success(function (d) {
+                        console.log(d);
+                        alert('Usuario creado correctamente');
+                        $location.path('/login');
+                        /*$window.location.reload();*/
+                    })
+                    .error(function (e) {
+                        alert('Error: ' + e);
+                    });
+            } else {
+                //alert("Se enviará objeto JSON");
+                var $promise = $http.post('registro/insertUser.php',{
+                    usuario:user,
+                    pass:pass,
+                    nombre:name,
+                    apellido:surname,
+                    edad:age,
+                    sex:sex,
+                    rol:rol
                 });
+                
+                $promise.then(function(data){
+                    console.log(data);
+                })
+            }
+
         }
-        
+
         $scope.listStations = function () {
             var $promise = $http.get('queries/listStations.php');
             $promise.then(function (msg) {
                 console.log(msg);
                 $scope.stations = msg.data.Stations;
             })
-        } 
-        
+        }
+
     });

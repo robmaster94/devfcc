@@ -1,235 +1,92 @@
-<head>
-    <link rel="stylesheet" type="text/css" src="registro.css">
-</head>
+<html>
 
-<hr class="section-heading-spacer">
-<div class="clearfix"></div>
+<body>
+    <form name="regForm" accept-charset="utf-8" ng-controller="registroCtrl">
+        <div class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="text-center bg-primary">SIGN UP</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4>User: </h4>
+                        <input class="form-control input-md" type="text" ng-model="user" min="4" max="25">
+                    </div>
+                    <div class="col-md-4">
+                        <h4>Pass: </h4>
+                        <input class="form-control input-md" type="password" ng-model="pass" min="5" max="50" required>
+                    </div>
+                    <div class="col-md-4 text-left">
+                        <h4>Repeat your pass: </h4>
+                        <input class="form-control input-md" type="password" ng-model="repass" min="5" max="50" required>
+                        <label class="label-danger" ng-show="(pass!=repass) && (pass && repass)">Passwords don't match</label>
+                        <label class="label-success" ng-show="(pass==repass) && (pass && repass) && ((pass.length>=5) && (repass.length>=5))">OK</label>
+                        <label class="label-danger" ng-show="(pass && repass) && ((pass.length<5) && (repass.length<5))">Minimum 5 characters</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 text-left">
+                        <h4>Name: </h4>
+                        <input class="form-control input-md" type="text" ng-model="name" required>
+                    </div>
+                    <div class="col-md-4 text-left">
+                        <h4>Surname: </h4>
+                        <input class="form-control input-md" type="text" ng-model="surname" required>
+                    </div>
+                    <div class="col-md-4 text-left">
+                        <h4>Age: </h4>
+                        <input class="form-control input-md" type="number" min="18" max="120" ng-model="age" required>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 text-left">
+                        <h4>Sex: </h4>
+                        <select ng-model="sex" class="form-control input-md" required>
+                            <option value>--Selecciona--</option>
+                            <option value="Masculino">Male</option>
+                            <option value="Femenino">Female</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 text-left">
+                        <h4>Rol: </h4>
+                        <select ng-model="rol" class="form-control input-md" required>
+                            <option value>--Selecciona--</option>
+                            <option value="user">User</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 text-left">
+                        <h4>Photo (optional): </h4>
+                        <input type="file" file-input="files" accept="image/*" ng-model="pic">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section text-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button class="btn btn-primary btn-md btn-block" ng-click="signUser(user,pass,name,surname,age,sex,rol,pic)" ng-show="regForm.$valid">Sign up</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 
-<h2 style="color: blueviolet; text-align: center;">Sign up</h2>
+</body>
 
-<div class="container">
-    <div class="col-lg-10 col-sm-12">
-        <h2 class="section-heading">Registro usuarios</h2>
-        <form ng-controller="registroCtrl" name="regUserForm" accept-charset="utf8">
-            <div class="col-sm-12">
-                <label>Username: </label><input class="form-control" type="text" ng-model="username" required>
-            </div>
-            <div class="col-sm-5">
-                <label>Password: </label><input class="form-control" type="password" ng-model="password" required>
-            </div>
-            <div class="col-sm-5">
-                <label>Repeat your password: </label><input class="form-control" type="password" ng-model="repeatpass" required>
-            </div>
-            <div class="col-sm-2">
-                <div class="section-heading"></div>
-                <label ng-if="(password !== repeatpass) && (password && repeatpass)">No coinciden</label>
-                <label ng-if="(password === repeatpass) && (password && repeatpass)"><img ng-src="img/ok.png"></label>
-            </div>
-
-            <div class="col-sm-6">
-                Name: <input class="form-control" type="text" ng-model="name" required>
-            </div>
-            <div class="col-sm-6">
-                Surname: <input class="form-control" type="text" ng-model="surname" required>
-            </div>
-            <div class="col-sm-4">
-                <label>Age: </label><input class="form-control" type="number" ng-model="age" min="18" max="90" required>
-            </div>
-            <div class="col-sm-4"><label>Sex:</label>
-                <select class="form-control" ng-model="sex" required>
-                        <option selected></option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>          
-                    </select>
-            </div>
-            <div class="col-sm-4"><label>Rol:</label>
-                <select class="form-control" ng-model="rol" required>
-                        <option selected></option>
-                        <option value="user">User</option>
-                        <option value="admin">Admin</option>          
-                    </select>
-            </div>
-            <div class="col-sm-12">
-                <label>Photo (optional): </label><input type="file" accept="image/*" file-input="files" ng-model="picUser"><br>
-            </div>
-            <div ng-show="rol=='user'" class="col-sm-12">
-                <p>
-                    <label>Favourite EV station (optional): </label>
-                    <button ng-click="listStations()" ng-hide="stations">Stations available</button>
-                    <select ng-model="favStation" id="stations" ng-show="stations" style="padding-left: 5px">
-                        <option class="form-control" ng-repeat="s in stations" value="{{s.Id}}">{{s.Name}}</option>
-                    </select>
-                </p>
-            </div>
-            <div class="col-sm-12" ng-show="rol=='user'">
-                <label>Choose your car (optional): </label>
-                <select ng-model="brand" class="span">
-                        <option value="">Select</option>
-                        <option value="Audi">Audi</option>
-                        <option value="BMW">BMW</option>
-                        <option value="BYD">BYD</option>
-                        <option value="Chevrolet">Chevrolet</option>
-                        <option value="Citroen">Citroen</option>
-                        <option value="Fiat">Fiat</option>
-                        <option value="Fisker">Fisker</option>
-                        <option value="Ford">Ford</option>
-                        <option value="Honda">Honda</option>
-                        <option value="Hyundai">Hyundai</option>
-                        <option value="KIA">KIA</option>
-                        <option value="Mercedes-Benz">Mercedes-Benz</option>
-                        <option value="Mia">Mia</option>
-                        <option value="Mitsubishi">Mitsubishi</option>
-                        <option value="Nissan">Nissan</option>
-                        <option value="Peugeot">Peugeot</option>
-                        <option value="Porsche">Porsche</option>
-                        <option value="Renault">Renault</option>
-                        <option value="Smart">Smart</option>
-                        <option value="Tesla">Tesla</option>
-                        <option value="Toyota">Toyota</option>                        
-                        <option value="Volkswagen">Volkswagen</option>             
-                        <option value="Volvo">Volvo</option>
-                    </select>
-                <select class="span" ng-model="model" ng-show="brand=='Audi'">
-                        <option value="">Seleccionar</option>
-                        <option value="A3 e-tron" >A3 e-Tron</option>
-                        <option value="Q7 e-tron">Q7 e-tron</option>
-                    </select>
-                <select class="span" ng-model="model" ng-show="brand=='BMW'">
-                        <option value="">Seleccionar</option>
-                        <option value="225xe Active Tourer">225xe Active Tourer</option>
-                        <option value="330e">330e</option>
-                        <option value="530e">530e</option>
-                        <option value="740e">740e</option>
-                        <option value="C-evolution">C-evolution</option>
-                        <option value="i3">i3</option>
-                        <option value="i3 94 AH">i3 94 AH</option>
-                        <option value="i8">i8</option>
-                        <option value="X5 40e">X5 40e</option>
-                    </select>
-                <select class="span" ng-model="model" ng-show="brand=='BYD'">
-                        <option value="">Seleccionar</option>
-                        <option value="e6">e6</option>
-                    </select>
-                <select class="span" ng-model="model" ng-show="brand=='Chevrolet'">
-                        <option value="">Seleccionar</option>
-                        <option value="Volt">Volt</option>
-                    </select>
-                <select class="span" ng-model="model" ng-show="brand=='Citroen'">
-                        <option value="">Seleccionar</option>
-                        <option value="C-Zero">C-Zero</option>
-                        <option value="E-Berlingo">E-Berlingo</option>
-                        <option value="E-Mehari">E-Mehari</option>
-                    </select>
-                <select class="span" ng-model="model" ng-show="brand=='Fiat'">
-                        <option value="">Seleccionar</option>
-                        <option value="500e">500e</option>
-                    </select>
-                <select class="span" ng-model="model" ng-show="brand=='Fisker'">
-                        <option value="">Seleccionar</option>
-                        <option value="Karma">Karma</option>
-                    </select>
-                <select class="span" ng-model="model" ng-show="brand=='Ford'">
-                        <option value="">Seleccionar</option>
-                        <option value="C-Max Energi">C-Max Energi</option>
-                        <option value="Focus Electric">Focus Electric</option>
-                    </select>
-                <select class="span" ng-model="model" ng-show="brand=='Honda'">
-                        <option value="">Seleccionar</option>
-                        <option value="Fit EV">Fit EV</option>
-                    </select>
-                <select class="span" ng-model="model" ng-show="brand=='Hyundai'">
-                        <option value="">Seleccionar</option>
-                        <option value="Ionic Electric">Ionic Electric</option>
-                        <option value="Ionic Plug-In-Hybrid">Ionic Plug-In-Hybrid</option>
-                    </select>
-                <select class="span" ng-model="model" ng-show="brand=='KIA'">
-                        <option value="">Seleccionar</option>
-                        <option value="Optima PHEV Sedan">Optima PHEV Sedan</option>
-                        <option value="Soul EV">Soul EV</option>
-                    </select>
-                <select class="span" ng-model="model" ng-show="brand=='Mercedes-Benz'">
-                        <option value="">Seleccionar</option>
-                        <option value="B250e">B250e</option>
-                        <option value="C350 Berlina">C350 Berlina</option>
-                        <option value="C350 Estate">C350 Estate</option>
-                        <option value="GLC350e">GLC350e</option>
-                        <option value="GLE500e">GLE500e</option>
-                        <option value="S500e">S500e</option>
-                        <option value="Vito E-CELL">Vito E-CELL</option>
-                    </select>
-                <select class="span" ng-model="model" ng-show="brand=='Mia'">
-                        <option value="">Seleccionar</option>
-                        <option value="Electric">Electric</option>
-                    </select>
-                <select class="span" ng-model="model" ng-show="brand=='Mitsubishi'">
-                        <option value="">Seleccionar</option>
-                        <option value="i-MiEV">i-MiEV</option>
-                        <option value="Outlander PHEV">Outlander PHEV</option>
-                    </select>
-                <select class="span" ng-model="model" ng-show="brand=='Nissan'">
-                        <option value="">Seleccionar</option>
-                        <option value="e-NV200">e-NV200</option>
-                        <option value="Leaf">Leaf</option>
-                    </select>
-                <select class="span" ng-model="model" ng-show="brand=='Peugeot'">
-                        <option value="">Seleccionar</option>
-                        <option value="iOn">iOn</option>
-                        <option value="Partner Electric">Partner Electric</option>
-                    </select>
-                <select class="span" ng-model="model" ng-show="brand=='Porsche'">
-                        <option value="">Seleccionar</option>
-                        <option value="Cayenne Hybrid">Cayenne Hybrid</option>
-                        <option value="Panamera Hybrid">Panamera Hybrid</option>
-                    </select>
-                <select class="span" ng-model="model" ng-show="brand=='Renault'">
-                        <option value="">Seleccionar</option>
-                        <option value="Fluence Z.E.">Fluence Z.E.</option>
-                        <option value="kangoo Z.E.">kangoo Z.E.</option>
-                        <option value="Zoe">Zoe</option>
-                    </select>
-                <select class="span" ng-model="model" ng-show="brand=='Smart'">
-                        <option value="">Seleccionar</option>
-                        <option value="For Two ED">For Two ED</option>
-                        <option value="forfour Electric Drive">forfour Electric Drive</option>
-                        <option value="fortwo Electric Drive">fortwo Electric Drive</option>
-                    </select>
-                <select class="span" ng-model="model" ng-show="brand=='Tesla'">
-                        <option value="">Seleccionar</option>
-                        <option value="Model S">Model S</option>
-                        <option value="Model X">Model X</option>
-                    </select>
-                <select class="span" ng-model="model" ng-show="brand=='Toyota'">
-                        <option value="">Seleccionar</option>
-                        <option value="prius">Prius Plug-In-Hybrid</option>
-                    </select>
-                <select class="span" ng-model="model" ng-show="brand=='Volkswagen'">
-                        <option value="">Seleccionar</option>
-                        <option value="e-Golf">e-Golf</option>
-                        <option value="e-Up">e-Up</option>
-                        <option value="Golf GTE">Golf GTE</option>
-                        <option value="Passat GTE Berlina">Passat GTE Berlina</option>
-                        <option value="Passat GTE Sedan">Passat GTE Sedan</option>
-                    </select>
-                <select class="span" ng-model="model" ng-show="brand=='Volvo'">
-                        <option value="">Seleccionar</option>
-                        <option value="S90 T8 Twin Engine">S90 T8 Twin Engine</option>
-                        <option value="V60 D5 Twin Engine">V60 D5 Twin Engine</option>
-                        <option value="XC90 T8 Twin Engine">XC90 T8 Twin Engine</option>
-                    </select>
-                <span style="padding-left: 5px">Connector/Charger Type:
-                    <select ng-model="conn_type">
-                        <option value="">Seleccionar</option>
-                        <option value="Schuko">Schuko</option>
-                        <option value="Tipo 1">Tipo 1</option>
-                        <option value="Tipo 2">Tipo 2</option>
-                        <option value="Tipo 3">Tipo 3</option>
-                        <option value="CHAdeMO">CHAdeMO</option>
-                        <option value="CCS Combo">CCS Combo</option>
-                    </select></span>
-            </div>
-            <div class="col-sm-12 col-lg-4">
-                <button class="btn btn-default btn-md" ng-show="regUserForm.$valid" ng-click="signUser(username,password,repeatpass,name,surname,age,sex,picUser,rol,favStation,brand,model, conn_type)">Sign up</button>
-            </div>
-        </form>
-    </div>
-</div>
+</html>

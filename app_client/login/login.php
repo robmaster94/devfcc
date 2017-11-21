@@ -7,8 +7,6 @@ $user = $request->username;
 $passwd = $request->password;
 $hash_pass = sha1($passwd);
 
-mysqli_set_charset($db_conn, "utf8");
-
 $sql = "SELECT * FROM users WHERE usuario = '".$user."'";
 
 $resultado = mysqli_query($conn,$sql);

@@ -37,8 +37,8 @@
                     $station_name = $rs3["name"];
                     
                     if ($outp != "") {$outp .= ",";}
-            //      $outp .= '{"Id":"'  . $rs["id"] . '",';
-                    $outp .= '{"voltage":"'  . $rs2["voltage"] . '",';
+                    $outp .= '{"id":"'  . $rs2["id"] . '",';
+                    $outp .= '"voltage":"'  . $rs2["voltage"] . '",';
                     $outp .= '"intensity":"'  . $rs2["intensity"] . '",';
                     $outp .= '"curr_power":"'  . $rs2["curr_power"] . '",';
                     $outp .= '"imp_ae":"'  . $rs2["imp_ae"] . '",';
@@ -51,7 +51,9 @@
                     $outp .= '"ev_battery_start_value":"'  . $rs2["ev_battery_start_value"] . '",';
                     $outp .= '"ev_battery_final_value":"'  . $rs2["ev_battery_final_value"] . '",';
                     $outp .= '"connector_id":"'. $rs2["connector_id"]  . '",';
-                    $outp .= '"date_and_time":"'  . $rs2["current_time_date"] . '",';            
+                    /*$date = new DateTime($rs2["current_time_date"]);
+                    date_format($date,'d-m-Y H:i:s');*/
+                    $outp .= '"current_time_date":"'  . date_format(new DateTime($rs2["current_time_date"]),'d-m-Y H:i:s') . '",';            
                     $outp .= '"station_name":"'  . $station_name . '"}';
                 }
 
@@ -60,14 +62,10 @@
             }
            
         break;
-        
-        case "stations":
-            
-        break;
-            
-        case "chargePoints":
+                    
+        /*case "chargePoints":
             echo "Consulta ".$query." fecha inicio ".$start." fecha final ".$end;
-        break;
+        break;*/
     }
 
     mysqli_close($conn);

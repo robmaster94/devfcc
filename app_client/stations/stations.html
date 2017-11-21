@@ -17,10 +17,10 @@
         <th>City</th>
         <th>Address</th>
         <tr ng-repeat="s in stations">
-            <td>{{s.Name}}</td>
-            <td>{{s.City}}</td>
-            <td>{{s.Address}}</td>
-            <td><button ng-click="panelLoginStation(s.Name)">Administrate</button></td>
+            <td>{{s.name}}</td>
+            <td>{{s.city}}</td>
+            <td>{{s.address}}</td>
+            <td><button ng-click="panelLoginStation(s.name)">Administrate</button></td>
         </tr>
     </table>
     <div ng-show="stations">

@@ -5,7 +5,10 @@ $postdata = file_get_contents("php://input");
 $request = json_decode($postdata);
 $usuario = $request->user;
 
-$sql = "SELECT * FROM users WHERE usuario = '".$usuario."'";
+session_start();
+$id_usuario = $_SESSION['id'];
+
+$sql = "SELECT * FROM users WHERE usuario = '".$usuario."' AND id = ".$id_usuario;
 $result = mysqli_query($conn,$sql);
 
 $outp = "";

@@ -1,13 +1,12 @@
 <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.11.3/xlsx.core.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment-with-locales.min.js"></script>
+    
 </head>
 
 <hr class="section-heading-spacer">
 <div class="clearfix"></div>
 <div class="container" ng-controller="queriesCtrl">
     <div class="row">
-        <div class="container">
+        <div class="container" ng-init="listStations()">
             <h2 class="section-heading" style="text-align: center; color: blueviolet">Queries</h2>
             <p>Query type:</p>
             <p>
@@ -39,12 +38,12 @@
                             <option value="ev_battery_final_value">EV battery value after charge</option>
                         </select>
                     </p>
-                    <p ng-init="listStations()">List available stations:</p>
+                    <p>List available stations:</p>
                     <div>
                         <p>
                             <select ng-model="station_id" required>
                                 <option value="">Select</option>
-                                <option ng-repeat="s in stations" value="{{s.Id}}">{{s.Name}}</option>
+                                <option ng-repeat="s in stations" value="{{s.id}}">{{s.name}}</option>
                             </select>
                         </p>
                     </div>
@@ -54,7 +53,7 @@
                 </form>
                 <p><button class="btn btn-default btn-sm" ng-click="exportLast()">Export last charge</button></p>
 
-                <div ng-show="consultaCompleta && (dataQuery=='all')" class="col-md-12">
+                <div ng-show="consultaCompleta && (dataQuery=='all')">
                     <p>Query results: </p>
                     <table class="table table-bordered table-responsive" style="white-space: nowrap">
                         <th>Voltage</th>
@@ -71,7 +70,6 @@
                         <th>Final EV Battery Value</th>
                         <th>Time when listed</th>
                         <th>Connector Id</th>
-                        <th>Charge's Date and time</th>
                         <th>Station Name</th>
                         <tr ng-repeat="c in consultaCompleta">
                             <td>{{c.voltage}}</td>
@@ -88,14 +86,13 @@
                             <td>{{c.ev_battery_final_value}}</td>
                             <td>{{c.current_time_date}}</td>
                             <td>{{c.connector_id}}</td>
-                            <td>{{c.date_and_time}}</td>
                             <td>{{c.station_name}}</td>
                         </tr>
                     </table>
                     <p> <button ng-click="exportToExcel()">Export</button> </p>
                 </div>
                 <div ng-show="consultaUnicaVariada && (dataQuery!='all')">
-                    <table class="table table-bordered" style="width: 50%; white-space: nowrap">
+                    <table class="table table-bordered table-responsive" style="width: 50%; white-space: nowrap">
                         <th style="align-content: center">{{dataQuery}}</th>
                         <tr ng-repeat="c in consultaUnicaVariada">
                             <td>{{c.Valor}}</td>
@@ -105,14 +102,21 @@
                 </div>
             </div>
             <div ng-show="typeQuery=='stations'">
-                <p>Query: </p>
-                <form accept-charset="utf-8" name="stationsForm">
+                <!--<form accept-charset="utf-8" name="stationsForm">
                     <p><textarea rows="1" cols="25" ng-model="stationsQuery" required></textarea></p>
                     <p><button type="submit" ng-show="stationsForm.$valid" ng-click="doStatQuery(stationsQuery,typeQuery)">Send query</button></p>
-                </form>
-                <div ng-show="typeQuery=='stations'">
-                    <p>Query result: {{station}}</p>
-                </div>
+                </form>-->
+                Name: <input type="text" class="form-control" ng-model="search.name" ng-model-options="{debounce:100}"><br>
+                City: <input type="text" class="form-control" ng-model="search.city" ng-model-options="{debounce:100}"><br>
+                Address: <input type="text" class="form-control" ng-model="search.address" 
+                                ng-model-options="{debounce:100}"><br>
+                <p class="text-center">
+                    <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
+                </p>
+                <ul class="list-group">
+                    <li class="list-group-item" dir-paginate="s in stations | filter:search | itemsPerPage:5">{{s.name}}</li>
+                </ul>
+                
             </div>
             <div ng-show="typeQuery=='chargePoints'">
                 <p>Query: </p>

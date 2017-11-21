@@ -49,15 +49,15 @@ angular.module('myApp.stations', ['ngRoute'])
             })
         }
 
-        $scope.panelLoginStation = function (name) {
+        $scope.panelLogin = function (name) {
             $scope.myJSONObject = {
-                stationName: name
-            };
+                user: name
+            }
             ngDialog.open({
                 template: 'stations/loginForm.html',
                 className: 'ngdialog-theme-default',
                 data: $scope.myJSONObject
-            });
+            })
         }
 
         $scope.loginStation = function (name, pass) {

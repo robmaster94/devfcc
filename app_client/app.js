@@ -9,7 +9,6 @@ var app = angular.module('myApp', [
   'myApp.perfil',
   'myApp.queries',
   'myApp.stations',
-  'myApp.ocpp',
   'myApp.telemetry',
   'myApp.logout',
   'xeditable',

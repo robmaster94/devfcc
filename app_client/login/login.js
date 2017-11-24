@@ -10,6 +10,13 @@ angular.module('myApp.login', ['ngRoute'])
 }])
 
     .controller('loginCtrl', function ($scope, $http, loginService) {
+    
+        $scope.login = function (){
+            var $promise = $http.get('/api/signin')
+            $promise.then(function(data){
+                alert(data)
+            })
+        }
         $scope.login = function (data, pass) {
             loginService.login(data, pass, $scope); //call login service
         };

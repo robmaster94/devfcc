@@ -29,6 +29,12 @@ function signIn (req,res) {
   })
 }
 
+function getSomething(req,res){
+    res.status(200).send({
+        message: 'has llamado al api de signin correctamente'
+    })
+}
+
 module.exports = {
   signUp,
   signIn

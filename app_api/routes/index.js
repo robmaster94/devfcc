@@ -14,7 +14,11 @@ api.put('/product/:productId', auth, productCtrl.updateProduct)
 api.delete('/product/:productId', auth, productCtrl.deleteProduct)
 api.post('/signup', userCtrl.signUp)
 api.post('/signin', userCtrl.signIn)
-api.get('/getController', userCtrl.getSomething)
+api.get('/getController', function(req,res){
+    res.status(200).send({
+        message: 'has llamado al api de signin correctamente'
+    })
+})
 api.get('/private', auth, function(req,res){
   res.status(200).send({message: 'Tienes acceso'})
 })

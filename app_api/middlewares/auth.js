@@ -19,6 +19,19 @@ function isAuth (req,res,next){
 
 }
 
-//exportamos la función
+function requerirRol(rol) {
+    return function (req, res, next) {
+        if (req.session.user && (req.session.user.rol === rol)) {
+            next()
+        } else {
+            res.status(403).send({
+                message: 'No tienes permisos para ver esta ruta'
+            })
+        }
+    }
+}
 
-module.exports = isAuth
+module.exports = {
+    isAuth,
+    requerirRol
+}

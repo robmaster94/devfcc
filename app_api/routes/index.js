@@ -1,31 +1,29 @@
 'use strict'
 
 const express = require('express')
-const productCtrl = require('../controllers/product')
 const auth = require('../middlewares/auth')
 const userCtrl = require('../controllers/user')
+const telemetryCtrl = require('../controllers/telemetry')
+const chargePointCtrl = require('../controllers/chargepoints')
+const stationCtrl = require('../controllers/station')
 const api = express.Router()
 
-
-api.get('/product', auth, productCtrl.getProducts)
-api.get('/product/:productId', auth, productCtrl.getProduct)
-api.post('/product',auth, productCtrl.saveProduct)
-api.put('/product/:productId', auth, productCtrl.updateProduct)
-api.delete('/product/:productId', auth, productCtrl.deleteProduct)
 api.post('/signup', userCtrl.signUp)
 api.post('/signin', userCtrl.signIn)
-api.get('/getController', function(req,res){
-    res.status(200).send({
-        message: 'has llamado al api de signin correctamente'
-    })
-})
-api.get('/private', auth, function(req,res){
-  res.status(200).send({message: 'Tienes acceso'})
-})
 
-/*
-  Creo otro express.Router() para crear un servidor WebSocket en un módulo aparte
-  La ruta será /ocpp/wallbox-sn2197, siendo ocpp el express.Router()
-*/
+api.get('/station', /*auth.isAuth,*/ stationCtrl.obtenerEstaciones)
+api.get('/station/:stationId', /*auth.isAuth,*/ stationCtrl.obtenerEstacion)
+api.post('/station', /*auth.isAuth, auth.requerirRol("admin"),*/ stationCtrl.crearNuevaEstacion)
+api.put('/station/:stationId', /*auth.isAuth, auth.requerirRol("admin"),*/ stationCtrl.actualizarEstacion)
+//api.delete('/station/:stationId', auth.isAuth, auth.requerirRol("admin"), stationCtrl.eliminarEstacion)
+
+api.get('/chargepoint', /*auth.isAuth,*/ chargePointCtrl.obtenerPuntosCarga)
+api.get('/chargepoint/:chargepointId', /*auth.isAuth, */chargePointCtrl.obtenerPuntoCarga)
+api.post('/chargepoint', /*auth.isAuth, auth.requerirRol("admin"), */chargePointCtrl.crearPuntoCarga)
+api.put('/chargepoint/:chargepointId', /*auth.isAuth, auth.requerirRol("admin"), */chargePointCtrl.actualizarPuntoCarga)
+//api.delete('/chargepoint/:chargepointId', auth.isAuth, auth.requerirRol("admin"), chargePointCtrl.eliminarPuntoCarga)
+
+api.get('/telemetry', /*auth.isAuth,*/ telemetryCtrl.obtenerDatosTelemetria)
+api.post('/telemetry', /*auth.isAuth, */telemetryCtrl.crearRegistroTelemetria)
 
 module.exports = api

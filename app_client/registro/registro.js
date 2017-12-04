@@ -45,7 +45,7 @@ angular.module('myApp.registro', ['ngRoute'])
                 fd.append('pic', $scope.files[0]);
                 fd.append('tipo', "formData");
 
-                $http.post('registro/insertUser.php', fd, {
+                $http.post('/api/signup', fd, {
                         transformRequest: angular.identity,
                         headers: {
                             'Content-Type': undefined
@@ -62,12 +62,12 @@ angular.module('myApp.registro', ['ngRoute'])
                     });
             } else {
                 //alert("Se enviará objeto JSON");
-                var $promise = $http.post('registro/insertUser.php',{
-                    usuario:user,
+                var $promise = $http.post('/api/signup' , {
+                    user:user,
                     pass:pass,
-                    nombre:name,
-                    apellido:surname,
-                    edad:age,
+                    name:name,
+                    surname:surname,
+                    age:age,
                     sex:sex,
                     rol:rol
                 });

@@ -11,17 +11,39 @@ angular.module('myApp.login', ['ngRoute'])
 
     .controller('loginCtrl', function ($scope, $http, loginService) {
     
+        $scope.recv = '';
+    
+        var socket = new WebSocket('ws://localhost:6500/ocpp/wallbox-sn2197')
+        
         $scope.login = function (user,pass) {
             var data = {
                 user: user,
                 pass: pass
             }
+            //var data2 = JSON.stringify(data)
             var $promise = $http.post('/api/signin', data)
             $promise.then(function(data){
-                alert(data)
+                console.log(data)
             })
         }
-        /*$scope.login = function (data, pass) {
-            loginService.login(data, pass, $scope); //call login service
-        };*/
+        
+        $scope.send = function(datos){
+            
+            var msg = {
+                idTag: datos
+            }
+            
+            var msg2 = JSON.stringify(msg)
+            $scope.msg2 = JSON.stringify(msg)           
+            
+            socket.send(msg2)
+            
+            $scope.datoss = null;
+            
+            socket.onmessage = function(evt){
+                $scope.recv = evt.data
+            }
+            
+        }
+        
     });

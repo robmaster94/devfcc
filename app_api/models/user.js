@@ -6,29 +6,31 @@ const bcrypt = require('bcrypt-nodejs')
 const crypto = require('crypto')
 
 const UserSchema = new Schema({
-    email: {
+    user: {
         type: String,
-        unique: true,
-        lowercase: true
+        unique: true
     },
-    displayName: String,
     password: {
         type: String,
         select: false
     }, //con select no enviamos la pass del usuario para más seguridad
-    avatar: String,
+    //avatar: String,
     name: String,
     surname: String,
     age: String,
     sex: String,
     rol: String,
-    car_model: String,
-    conn_type: String,
+    //car_model: String,
+    //conn_type: String,
     signupDate: {
         type: Date,
         default: Date.now()
     },
-    lastLogin: Date
+    lastLogin: Date,
+    idTag: {
+        type: String,
+        default: '11111111'
+    }
 })
 
 UserSchema.pre('save', (next) => {
@@ -50,11 +52,33 @@ UserSchema.pre('save', (next) => {
     })
 })
 
-UserSchema.methods.gravatar = function () { //si no tiene email registrado, un avatar aleatorio por defecto
+UserSchema.statics.authenticate = function (user, pass, callback) {
+    console.log(user +' '+pass)
+    User.findOne({
+        user: user
+    }).exec(function (err, user) {
+        if (err) {
+            return callback(err)
+        } else if (!user) {
+            var err = new Error('User not found.')
+            err.status = 401
+            return callback(err)
+        }
+        bcrypt.compare(pass, user.pass, function(err,result){
+            if(result === true){
+                return callback(null,user)
+            } else {
+                return callback()
+            }
+        })
+    })
+}
+
+/*UserSchema.methods.gravatar = function () { //si no tiene email registrado, un avatar aleatorio por defecto
     if (!this.email) return `https://gravatar.com/avatar/s=200&retro`
 
     const md5 = crypto.createHash('md5').update(this.email).digest('hex')
     return `https://gravatar.com/avatar/${md5}?s=200&d=retro`
-}
+}*/
 
 module.exports = mongoose.model('User', UserSchema)

@@ -17,7 +17,7 @@
                 <div class="col-md-12">
                     <form role="form" name="loginForm">
                         <div class="form-group has-feedback">
-                            <label class="control-label" for="exampleInputEmail1">Username</label>
+                            <label class="control-label" for="exampleInputEmail1">Email</label>
                             <input class="form-control input-lg" id="exampleInputEmail1" placeholder="Enter your username" type="text" ng-model="user" required>
                             <span class="fa fa-check form-control-feedback"></span>
                         </div>
@@ -29,6 +29,18 @@
                         <button type="submit" class="btn btn-block btn-md btn-success" 
                                 ng-click="login(user,pass)" ng-show="loginForm.$valid">Sign in</button>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    Mensaje: <input type="text" ng-model="datoss">
+                    <button class="btn btn-md" ng-click="send(datoss)">Enviar</button>
+                    Mensaje enviado: {{msg2}}<br>
+                    Mensaje recibido: {{recv}}
                 </div>
             </div>
         </div>

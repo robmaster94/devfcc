@@ -9,11 +9,11 @@ angular.module('myApp.login', ['ngRoute'])
         });
 }])
 
-    .controller('loginCtrl', function ($scope, $http, loginService) {
+    .controller('loginCtrl', function ($scope, $http, loginService, $window, $location) {
     
         $scope.recv = '';
     
-        var socket = new WebSocket('ws://localhost:6500/ocpp/wallbox-sn2197')
+        var socket = new WebSocket('wss://devfcc.herokuapp.com/ocpp/wallbox-sn2197')
         
         $scope.login = function (user,pass) {
             var data = {
@@ -24,6 +24,8 @@ angular.module('myApp.login', ['ngRoute'])
             var $promise = $http.post('/api/signin', data)
             $promise.then(function(data){
                 console.log(data)
+                $location.path('/perfil')
+                $window.location.reload()
             })
         }
         

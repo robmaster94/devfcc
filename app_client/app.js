@@ -38,7 +38,7 @@ var app = angular.module('myApp', [
                         {'ref': '/perfil', 'name':'My profile' , 'needAuthentication': true},
                         {'ref': '/queries', 'name':'Queries' , 'needAuthentication': true},
                         {'ref': '/stations', 'name':'Stations' , 'needAuthentication': true},
-                        {'ref': '/ocpp', 'name':'OCPP' , 'needAuthentication': false},
+                        //{'ref': '/ocpp', 'name':'OCPP' , 'needAuthentication': true},
                         {'ref': '/telemetry', 'name':'Telemetry' , 'needAuthentication': true},
                         {'ref': '/logout', 'name':'Logout' , 'needAuthentication': true}
                         ];
@@ -58,22 +58,12 @@ var app = angular.module('myApp', [
                             {'ref': '/login', 'name':'Login' , 'needAuthentication': true},
                             {'ref': '/faq', 'name':'FAQ' , 'needAuthentication': false},
                             {'ref': '/stations', 'name':'Stations' , 'needAuthentication': false},
-                            {'ref': '/ocpp', 'name':'OCPP' , 'needAuthentication': false},
+                            //{'ref': '/ocpp', 'name':'OCPP' , 'needAuthentication': false},
                             {'ref': '/perfil', 'name':'My profile' , 'needAuthentication': false},
                             {'ref': '/telemetry', 'name':'Telemetry' , 'needAuthentication': false},
                             {'ref': '/logout', 'name':'Logout' , 'needAuthentication': false}
                         ];
                     }
-/*                 $scope.items = [
-                        {'ref': '!/registro', 'name':'Sign up' , 'needAuthentication': true},
-                        {'ref': '!/login', 'name':'Login' , 'needAuthentication': true},
-                        {'ref': '!/faq', 'name':'FAQ' , 'needAuthentication': false},                     
-                        {'ref': '!/perfil', 'name':'My profile' , 'needAuthentication': false, rol: "user"},
-                        {'ref': '!/queries', 'name':'Queries' , 'needAuthentication': false, rol: "user"},
-                        {'ref': '!/stations', 'name':'Stations' , 'needAuthentication': false, rol: "admin"},
-                        {'ref': '!/telemetry', 'name':'Telemetry' , 'needAuthentication': false, rol: "admin"},
-                        {'ref': '!/logout', 'name':'Logout' , 'needAuthentication': false, rol: "admin"}
-                        ];*/
                 }
 			})
 })

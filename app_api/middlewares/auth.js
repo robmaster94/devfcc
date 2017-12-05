@@ -9,7 +9,7 @@ function isAuth(req, res, next) {
         })
     }
 
-    const token = req.headers.authorization.split(" ")[1] // 1 espacio, array size[1]
+    const token = req.headers.authorization.split(" ")[1]
     service.decodeToken(token)
         .then(response => {
             req.user = response

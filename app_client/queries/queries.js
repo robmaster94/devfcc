@@ -19,7 +19,7 @@ angular.module('myApp.queries', ['ngRoute'])
             })
         }
 
-        $scope.doTelQuery = function (queryUser, start, end, typeQuery, station_id) {
+        $scope.doTelQuery = function (queryUser, start, end, typeQuery) {
 
             var startDate = moment(start).format(); /* Formato para la SQL */
             var startDate2 = moment(start).locale('es').format('L'); /* Formato más cómodo y leíble para el usuario */

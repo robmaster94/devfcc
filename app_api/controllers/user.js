@@ -54,7 +54,7 @@ function signIn(req, res) {
             sess = req.session
             sess.user = req.user['0'].user
             sess.rol = req.user['0'].rol
-            console.log('User: '+sess.user+' con rol '+sess.rol)
+            console.log('User: ' + sess.user + ' con rol ' + sess.rol)
 
             res.status(200).send({
                 message: 'Te has logueado correctamente',
@@ -72,7 +72,7 @@ function signIn(req, res) {
 
 function chequearPrivilegios(req, res, next) {
 
-    console.log('idTag: '+req.idTag)
+    console.log('idTag: ' + req.idTag)
 
     User.find({
         idTag: req.idTag
@@ -84,8 +84,41 @@ function chequearPrivilegios(req, res, next) {
 
 }
 
+function obtenerRol(req, res, next) {
+    sess = req.session
+    if (sess.user) {
+        if (sess.rol == "user") {
+            return res.status(200).send({
+                rol: 'user'
+            })
+        } else if (sess.rol == "admin") {
+            return res.status(200).send({
+                rol: 'admin'
+            })
+        }
+    } else {
+        return res.status(200).send({
+            message: 'Usuario no logueado'
+        })
+    }
+}
+
+function obtenerPerfil(req, res, next) {
+    sess = req.session
+    console.log('Usuario para obtener sus datos: ' + sess.user)
+    User.findOne({
+        user: sess.user
+    }, (err, message) => {
+        if (err) console.log('error')
+        console.log('Datos usuario ' +sess.user+ ': ' + message)
+        return res.status(200).send(message)
+    })
+}
+
 module.exports = {
     signUp,
     signIn,
-    chequearPrivilegios
+    chequearPrivilegios,
+    obtenerRol,
+    obtenerPerfil
 }

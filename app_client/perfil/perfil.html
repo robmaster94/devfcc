@@ -9,8 +9,8 @@
                 <hr class="section-heading-spacer">
                 <div class="clearfix"></div>
                 <h2 class="section-heading">Perfil</h2>
-                <div class="align-self-center text-center"><img ng-src="registro/{{names.pic}}" width="150" height="150"></div>
-                <div>
+                <div class="align-self-center text-center"><img src="http://lorempixel.com/200/200/city/" width="150" height="150"></div><br>
+                <div ng-init="obtenerPerfil()">
                     <table class="table table-bordered table-responsive" style="white-space: nowrap">
                     <thead>
                         <th>Nombre</th>
@@ -19,19 +19,21 @@
                         <th>Sexo</th>
                         <th>Nombre usuario</th>
                         <th>Rol</th>
-                        <th>Coche</th>
-                        <th>Conector</th>
+                        <th>Fecha registro</th>
+                        <!--<th>Coche</th>
+                        <th>Conector</th>-->
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{{names.nombre}}</td>
-                            <td>{{names.apellido}}</td>
-                            <td style="text-align: right">{{names.edad}}</td>
+                            <td>{{names.name}}</td>
+                            <td>{{names.surname}}</td>
+                            <td style="text-align: right">{{names.age}}</td>
                             <td>{{names.sex}}</td>
-                            <td>{{names.usuario}}</td>
+                            <td>{{names.user}}</td>
                             <td>{{names.rol}}</td>
-                            <td>{{names.car_model}}</td>
-                            <td>{{names.conn_type}}</td>
+                            <td>{{names.signupDate | date:'dd-MM-yyyy'}}</td>
+                            <!--<td>{{names.car_model}}</td>
+                            <td>{{names.conn_type}}</td>-->
                         </tr>
                     </tbody>
                 </table>

@@ -30,7 +30,6 @@ var app = angular.module('myApp', [
 			$promise.then(function(msg){
                 //console.log(msg)
 				if(msg.data.message == "Usuario no logueado"){
-                    alert("Usuario no logueado")
                     $scope.items = [
                         {'ref': '/registro', 'name':'Sign up' , 'needAuthentication': false},
                         {'ref': '/login', 'name':'Login' , 'needAuthentication': false},
@@ -44,6 +43,7 @@ var app = angular.module('myApp', [
                         ];
                 } else{
                     if (msg.data.rol == "user"){
+                        //console.log('Vistas rol user')
                         $scope.items = [       
                             {'ref': '/registro', 'name':'Sign up' , 'needAuthentication': true},
                             {'ref': '/login', 'name':'Login' , 'needAuthentication': true},
@@ -53,6 +53,7 @@ var app = angular.module('myApp', [
                         ];
                     }
                     if (msg.data.rol == "admin"){
+                        //console.log('Vistas rol admin')
                         $scope.items = [       
                             {'ref': '/registro', 'name':'Sign up' , 'needAuthentication': true},
                             {'ref': '/login', 'name':'Login' , 'needAuthentication': true},

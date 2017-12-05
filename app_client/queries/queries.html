@@ -38,7 +38,7 @@
                             <option value="ev_battery_final_value">EV battery value after charge</option>
                         </select>
                     </p>
-                    <p>List available stations:</p>
+                    <!--<p>List available stations:</p>
                     <div>
                         <p>
                             <select ng-model="station_id" required>
@@ -46,10 +46,10 @@
                                 <option ng-repeat="s in stations" value="{{s.id}}">{{s.name}}</option>
                             </select>
                         </p>
-                    </div>
+                    </div>-->
                     <p>From: <input type="date" ng-model="startDate" required></p>
                     <p>To: <input type="date" ng-model="finalDate" required></p>
-                    <p><button type="submit" ng-show="telemetryForm.$valid" ng-click="doTelQuery(dataQuery,startDate,finalDate,typeQuery,station_id)">Send query</button></p>
+                    <p><button type="submit" ng-show="telemetryForm.$valid" ng-click="doTelQuery(dataQuery,startDate,finalDate,typeQuery)">Send query</button></p>
                 </form>
                 <p><button class="btn btn-default btn-sm" ng-click="exportLast()">Export last charge</button></p>
 

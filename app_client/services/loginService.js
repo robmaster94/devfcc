@@ -26,6 +26,7 @@ app.factory('loginService',function($http, $location, sessionService, $route, $w
                 console.log(data)
             })
 			$location.path('/login')
+            $window.location.reload()
             return $promise
 		},
 		islogged:function(){

@@ -25,25 +25,13 @@ angular.module('myApp.perfil', ['ngRoute'])
     .controller('perfilCtrl', function ($scope, loginService, $http, $window) {
 
         $scope.names = [];
-        var connected = loginService.islogged();
-        connected.then(function (message) {
-            var $promise = $http.post('perfil/perfil.php', {
-                user: message.data.user
-            });
-            $promise.then(function (msg) {
-                console.log(msg.data);
-                $scope.names = msg.data;
-            });
-        })
-    
-        /*
-        
-            28-09-2017
-            
-            - Mirar por qué se hacen varias peticiones de perfil
-            - Reajustar barra de navegación (se descoloca al haber muchas pestañas)
-        
-        */
+        $scope.obtenerPerfil = function(){
+            var $promise = $http.get('/api/obtenerPerfil')
+            $promise.then(function(msg) {
+                console.log(msg)
+                $scope.names = msg.data
+            })
+        }
 
         $scope.files = [];
 

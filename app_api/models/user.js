@@ -28,8 +28,8 @@ const UserSchema = new Schema({
     },
     lastLogin: Date,
     idTag: {
-        type: String,
-        default: '11111111'
+        type: String/*,
+        default: '11111111'*/
     }
 })
 

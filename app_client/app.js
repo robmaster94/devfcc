@@ -24,12 +24,13 @@ var app = angular.module('myApp', [
   $routeProvider.otherwise({redirectTo: '/home'});
 }])
 
-.controller('NavBarCtrl', function ($scope, loginService) {
+.controller('NavBarCtrl', function ($scope, loginService, $location, $window) {
     
-    var connected=loginService.islogged();
-			connected.then(function(msg){
-                //console.log(msg);
-				if(!msg.data){
+    var $promise=loginService.islogged()
+			$promise.then(function(msg){
+                //console.log(msg)
+				if(msg.data.message == "Usuario no logueado"){
+                    alert("Usuario no logueado")
                     $scope.items = [
                         {'ref': '/registro', 'name':'Sign up' , 'needAuthentication': false},
                         {'ref': '/login', 'name':'Login' , 'needAuthentication': false},
@@ -74,8 +75,7 @@ var app = angular.module('myApp', [
                         {'ref': '!/logout', 'name':'Logout' , 'needAuthentication': false, rol: "admin"}
                         ];*/
                 }
-			});
-
+			})
 })
 
 .run(function($rootScope, $location, loginService){
@@ -85,7 +85,7 @@ var app = angular.module('myApp', [
 		{
 			var connected=loginService.islogged();
 			connected.then(function(msg){
-				if(!msg.data) $location.path('/login');
+				if(msg.data.message == "Usuario no logueado") $location.path('/login');
 			});
 		}
 	});

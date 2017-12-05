@@ -73,7 +73,9 @@ angular.module('myApp.registro', ['ngRoute'])
                 });
                 
                 $promise.then(function(data){
-                    console.log(data);
+                    console.log(data)
+                    $location.path('/telemetry')
+                    $window.location.reload()
                 })
             }
 

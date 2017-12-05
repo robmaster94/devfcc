@@ -3,6 +3,8 @@
 const mongoose = require('mongoose')
 const User = require('../models/user')
 const service = require('../services')
+const session = require('express-session')
+var sess;
 
 function signUp(req, res) {
     console.log('Función signUp')
@@ -18,17 +20,19 @@ function signUp(req, res) {
         //conn_type: req.body.conn_type
     })
 
+    console.log('Usuario a registrar: ' + user)
+
     user.save(function (err) {
         if (err) return console.log('Error:' + err)
-        /*return res.status(500).send({
-                   message: `Error al crear el usuario: ${err}`
-               })*/
-        res.status(200).send({
-            token: service.createToken(user)
-        })
-        
-        //res.redirect('/home')
     })
+
+    res.status(200).send({
+        token: service.createToken(user)
+    })
+
+    sess = req.session
+    sess.user = req.body.user
+    sess.rol = req.body.rol
 }
 
 function signIn(req, res) {
@@ -45,7 +49,13 @@ function signIn(req, res) {
             })
 
             req.user = user
-            
+            console.log(req.user)
+
+            sess = req.session
+            sess.user = req.user['0'].user
+            sess.rol = req.user['0'].rol
+            console.log('User: '+sess.user+' con rol '+sess.rol)
+
             res.status(200).send({
                 message: 'Te has logueado correctamente',
                 token: service.createToken(user)
@@ -53,45 +63,25 @@ function signIn(req, res) {
         })
     } else {
         console.log('Falta la pass')
-        return res.status(403).send({message: 'Falta la pass'})
+        res.status(403).send({
+            message: 'Falta la pass'
+        })
     }
 
 }
 
 function chequearPrivilegios(req, res, next) {
 
-    console.log(req.idTag)
-    for (var recu in res){
-        console.log(res[recu])
-    }
+    console.log('idTag: '+req.idTag)
 
     User.find({
         idTag: req.idTag
     }, (err, message) => {
         if (err) console.log('error')
-        console.log('User encontrado: '+message)
+        console.log('User encontrado: ' + message)
         next(message)
     })
 
-    /*User.find({
-        idTag: req.idTag
-    }, (err, user) => {
-        if (err) return res.status(500).send({
-            message: err
-        })
-        if (user == null || user == '') return res.status(404).send({
-            message: 'No existe el usuario'
-        })
-
-        req.user = user
-
-        console.log(req.user)
-
-        res.status(200).send({
-            message: 'Te has logueado correctamente',
-            token: service.createToken(user)
-        })
-    })*/
 }
 
 module.exports = {

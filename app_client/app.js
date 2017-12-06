@@ -31,7 +31,7 @@ var app = angular.module('myApp', [
                 //console.log(msg)
 				if(msg.data.message == "Usuario no logueado"){
                     $scope.items = [
-                        {'ref': '/registro', 'name':'Sign up' , 'needAuthentication': false},
+                        //{'ref': '/registro', 'name':'Sign up' , 'needAuthentication': false},
                         {'ref': '/login', 'name':'Login' , 'needAuthentication': false},
                         {'ref': '/faq', 'name':'FAQ' , 'needAuthentication': false},
                         {'ref': '/perfil', 'name':'My profile' , 'needAuthentication': true},
@@ -45,7 +45,7 @@ var app = angular.module('myApp', [
                     if (msg.data.rol == "user"){
                         //console.log('Vistas rol user')
                         $scope.items = [       
-                            {'ref': '/registro', 'name':'Sign up' , 'needAuthentication': true},
+                            //{'ref': '/registro', 'name':'Sign up' , 'needAuthentication': true},
                             {'ref': '/login', 'name':'Login' , 'needAuthentication': true},
                             {'ref': '/faq', 'name':'FAQ' , 'needAuthentication': false},
                             {'ref': '/perfil', 'name':'My profile' , 'needAuthentication': false},
@@ -55,7 +55,7 @@ var app = angular.module('myApp', [
                     if (msg.data.rol == "admin"){
                         //console.log('Vistas rol admin')
                         $scope.items = [       
-                            {'ref': '/registro', 'name':'Sign up' , 'needAuthentication': true},
+                            //{'ref': '/registro', 'name':'Sign up' , 'needAuthentication': true},
                             {'ref': '/login', 'name':'Login' , 'needAuthentication': true},
                             {'ref': '/faq', 'name':'FAQ' , 'needAuthentication': false},
                             {'ref': '/stations', 'name':'Stations' , 'needAuthentication': false},

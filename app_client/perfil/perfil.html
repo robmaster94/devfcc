@@ -2,43 +2,44 @@
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" src="perfil.css">
 </head>
+<hr class="section-heading-spacer">
+<div class="clearfix"></div>
+<h2 class="section-heading"></h2>
+<h2 class="section-heading" style="text-align: center; color: blueviolet">Profile</h2>
 <div class="container">
     <div class="row">
         <div class="col-md-12">
             <div id="perfil">
-                <hr class="section-heading-spacer">
-                <div class="clearfix"></div>
-                <h2 class="section-heading">Perfil</h2>
                 <div class="align-self-center text-center"><img src="http://lorempixel.com/200/200/city/" width="150" height="150"></div><br>
                 <div ng-init="obtenerPerfil()">
                     <table class="table table-bordered table-responsive" style="white-space: nowrap">
-                    <thead>
-                        <th>Nombre</th>
-                        <th>Apellido</th>
-                        <th>Edad</th>
-                        <th>Sexo</th>
-                        <th>Nombre usuario</th>
-                        <th>Rol</th>
-                        <th>Fecha registro</th>
-                        <!--<th>Coche</th>
+                        <thead>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Edad</th>
+                            <th>Sexo</th>
+                            <th>Nombre usuario</th>
+                            <th>Rol</th>
+                            <th>Fecha registro</th>
+                            <!--<th>Coche</th>
                         <th>Conector</th>-->
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>{{names.name}}</td>
-                            <td>{{names.surname}}</td>
-                            <td style="text-align: right">{{names.age}}</td>
-                            <td>{{names.sex}}</td>
-                            <td>{{names.user}}</td>
-                            <td>{{names.rol}}</td>
-                            <td>{{names.signupDate | date:'dd-MM-yyyy'}}</td>
-                            <!--<td>{{names.car_model}}</td>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{names.name}}</td>
+                                <td>{{names.surname}}</td>
+                                <td style="text-align: right">{{names.age}}</td>
+                                <td>{{names.sex}}</td>
+                                <td>{{names.user}}</td>
+                                <td>{{names.rol}}</td>
+                                <td>{{names.signupDate | date:'dd-MM-yyyy'}}</td>
+                                <!--<td>{{names.car_model}}</td>
                             <td>{{names.conn_type}}</td>-->
-                        </tr>
-                    </tbody>
-                </table>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                
+
             </div>
         </div>
     </div>

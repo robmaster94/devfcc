@@ -26,36 +26,25 @@ angular.module('myApp.queries', ['ngRoute'])
             var endDate = moment(end).format(); /* Formato para la SQL */
             var endDate2 = moment(end).locale('es').format('L');
 
-            if (station_id != null) {
-                var $promise = $http.post('queries/query.php', {
-                    query: queryUser,
-                    start: startDate,
-                    endDate: endDate,
-                    station_id: station_id,
-                    type: typeQuery
-                });
-            } else {
-                var $promise = $http.post('queries/query.php', {
-                    query: queryUser,
-                    start: startDate,
-                    end: endDate,
-                    type: typeQuery
-                });
-            }
+            var $promise = $http.post('/api/telemetry', {
+                query: queryUser,
+                start: startDate,
+                end: endDate,
+                type: typeQuery
+            })
 
             $promise.then(function (d) {
                 console.log(d);
                 if (d.data.Telemetry) {
                     $scope.consultaCompleta = d.data.Telemetry;
-                    
-    $scope.exportToExcel = function () {
-
-    }
+                    $scope.exportToExcel = function () {
+                        alasql("SELECT * INTO CSV('Consulta completa - " + startDate2 + " to " + endDate2 + " -.csv',{headers:true}) FROM ?", [d.data.Telemetry]);
+                    }
                 }
                 if (d.data.Valores) {
                     $scope.consultaUnicaVariada = d.data.Valores;
                     $scope.exportToExcel = function () {
-                        alasql("SELECT * INTO CSV('" + queryUser + " - " + startDate2 + " to " + endDate2 + " -.csv',{headers:true}) FROM ?", [$scope.consultaUnicaVariada]);
+                        alasql("SELECT * INTO CSV('" + queryUser + " - " + startDate2 + " to " + endDate2 + " -.csv',{headers:true}) FROM ?", [d.data.Valores]);
                     }
                 }
             })
@@ -78,12 +67,20 @@ angular.module('myApp.queries', ['ngRoute'])
         }
 
         $scope.exportLast = function () {
-            var $promise = $http.get('queries/lastCharge.php');
+            var $promise = $http.get('/api/obtUltimaCarga')
             $promise.then(function (data) {
-                console.log(data);
-                $scope.lastCharge = data.data.Telemetry;
-                alasql("SELECT * INTO CSV('Last Charge.csv',{headers:true}) FROM ?", [$scope.lastCharge]);
+                console.log(data)
+                $scope.lastCharge = data.data.Telemetry
+                alasql("SELECT * INTO CSV('Last Charge.csv',{headers:true}) FROM ?", [$scope.lastCharge])
             })
+        }
+
+        $scope.clearFilter = function () {
+            $scope.dataQuery = null
+            $scope.startDate = null
+            $scope.finalDate = null
+            $scope.consultaCompleta = null
+            $scope.consultaUnicaVariada = null
         }
 
     });

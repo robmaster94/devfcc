@@ -20,19 +20,21 @@ api.get('/logout', function(req,res){
     console.log(sess)
 })
 
-api.get('/station', auth.isAuth, stationCtrl.obtenerEstaciones)
-api.get('/station/:stationId', auth.isAuth, stationCtrl.obtenerEstacion)
-api.post('/station', auth.isAuth, auth.requerirRol("admin"), stationCtrl.crearNuevaEstacion)
-api.put('/station/:stationId', auth.isAuth, auth.requerirRol("admin"), stationCtrl.actualizarEstacion)
+api.get('/station', auth.chequearSesion, stationCtrl.obtenerEstaciones)
+api.get('/station/:stationId', auth.chequearSesion, stationCtrl.obtenerEstacion)
+api.post('/station', auth.chequearSesion, auth.requerirRol("admin"), stationCtrl.crearNuevaEstacion)
+api.put('/station/:stationId', auth.chequearSesion, auth.requerirRol("admin"), stationCtrl.actualizarEstacion)
 //api.delete('/station/:stationId', auth.isAuth, auth.requerirRol("admin"), stationCtrl.eliminarEstacion)
 
-api.get('/chargepoint', auth.isAuth, chargePointCtrl.obtenerPuntosCarga)
-api.get('/chargepoint/:chargepointId', auth.isAuth, chargePointCtrl.obtenerPuntoCarga)
-api.post('/chargepoint', auth.isAuth, auth.requerirRol("admin"), chargePointCtrl.crearPuntoCarga)
-api.put('/chargepoint/:chargepointId', auth.isAuth, auth.requerirRol("admin"), chargePointCtrl.actualizarPuntoCarga)
+api.get('/chargepoint', auth.chequearSesion, chargePointCtrl.obtenerPuntosCarga)
+api.get('/chargepoint/:chargepointId', auth.chequearSesion, chargePointCtrl.obtenerPuntoCarga)
+api.post('/chargepoint', auth.chequearSesion, auth.requerirRol("admin"), chargePointCtrl.crearPuntoCarga)
+api.put('/chargepoint/:chargepointId', auth.chequearSesion, auth.requerirRol("admin"), chargePointCtrl.actualizarPuntoCarga)
 //api.delete('/chargepoint/:chargepointId', auth.isAuth, auth.requerirRol("admin"), chargePointCtrl.eliminarPuntoCarga)
 
-api.get('/telemetry', auth.isAuth, telemetryCtrl.obtenerDatosTelemetria)
-api.post('/telemetry', auth.isAuth, telemetryCtrl.crearRegistroTelemetria)
+api.get('/telemetry', auth.chequearSesion, telemetryCtrl.obtenerDatosTelemetria)
+api.post('/telemetry', auth.chequearSesion, telemetryCtrl.obtenerDatosConsultaTelemetria)
+api.post('/createTelemetry', telemetryCtrl.crearRegistroTelemetria)
+api.get('/obtUltimaCarga', auth.chequearSesion, telemetryCtrl.obtenerUltimaCarga)
 
 module.exports = api

@@ -26,7 +26,7 @@ function requerirRol(rol) {
         var role
         if (req.session.user && (req.session.rol === rol)) {
             role = rol
-            next(rol)
+            next(role)
         } else {
             res.status(403).send({
                 message: 'No tienes permisos para ver esta ruta'
@@ -35,7 +35,16 @@ function requerirRol(rol) {
     }
 }
 
+function chequearSesion(req,res,next){
+    if(req.session.user){
+        next()
+    } else {
+        return res.status(403).send({message: 'No autorizado'})
+    }
+}
+
 module.exports = {
     isAuth,
-    requerirRol
+    requerirRol,
+    chequearSesion
 }

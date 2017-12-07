@@ -49,32 +49,104 @@ function obtenerDatosConsultaTelemetria(req, res) {
 
     console.log('consulta telemetria')
     var tipo = req.body.type
-
+    var parametros
     switch (tipo) {
         case "telemetry":
             var query = req.body.query
-            var datos
             console.log('query: ' + query)
             if (query != "all") {
-
                 switch (query) {
                     case "voltage":
-                        Telemetry.find({}, {
+                        parametros = {
                             "voltage": 1,
                             "_id": 0
-                        }, function (err, data) {
-                            if (err) console.log('Error al obtener telemetria: ' + err)
-
-                            //console.log(data)
-                            req.consulta = data
-                            console.log(req.consulta)
-
-                            res.status(200).json({
-                                Valores: req.consulta,
-                                campo: query
-                            })
-                        })
+                        }
+                        break
+                    case "current":
+                        parametros = {
+                            "current": 1,
+                            "_id": 0
+                        }
+                        break
+                    case "curr_power":
+                        parametros = {
+                            "curr_power": 1,
+                            "_id": 0
+                        }
+                        break
+                    case "imp_ae":
+                        parametros = {
+                            "imp_ae": 1,
+                            "_id": 0
+                        }
+                        break
+                    case "exp_ae":
+                        parametros = {
+                            "exp_ae": 1,
+                            "_id": 0
+                        }
+                        break
+                    case "imp_re":
+                        parametros = {
+                            "imp_re": 1,
+                            "_id": 0
+                        }
+                        break
+                    case "exp_re":
+                        parametros = {
+                            "exp_re": 1,
+                            "_id": 0
+                        }
+                        break
+                    case "power_factor":
+                        parametros = {
+                            "power_factor": 1,
+                            "_id": 0
+                        }
+                        break
+                    case "earth_wire_status":
+                        parametros = {
+                            "earth_wire_status": 1,
+                            "_id": 0
+                        }
+                        break
+                    case "station_status":
+                        parametros = {
+                            "station_status": 1,
+                            "_id": 0
+                        }
+                        break
+                    case "ev_battery_start_value":
+                        parametros = {
+                            "ev_battery_start_value": 1,
+                            "_id": 0
+                        }
+                        break
+                    case "ev_battery_final_value":
+                        parametros = {
+                            "ev_battery_final_value": 1,
+                            "_id": 0
+                        }
+                        break
                 }
+
+                Telemetry.find({
+                    "current_time_date": {
+                        "$gt": req.body.start,
+                        "$lt": req.body.end
+                    }
+                }, parametros, function (err, data) {
+                    if (err) console.log('Error al obtener telemetria: ' + err)
+
+                    //console.log(data)
+                    req.consulta = data
+                    console.log(req.consulta)
+
+                    res.status(200).json({
+                        Valores: req.consulta,
+                        campo: query
+                    })
+                })
 
             } else {
                 console.log(req.body.start)
@@ -110,16 +182,6 @@ function obtenerDatosConsultaTelemetria(req, res) {
             break
     }
 
-    /*Telemetry.find({
-        fechaInicial: req.body.start,
-        fechaFinal: req.body.end,
-        query: req.body.query,
-        tipo: ,
-        current_time_date: {
-
-        }
-    })*/
-
 }
 
 function obtenerUltimaCarga(req, res) {
@@ -135,7 +197,7 @@ function obtenerUltimaCarga(req, res) {
         console.log('correcto')
         req.ultimacarga = data
         console.log(req.ultimacarga)
-        
+
         res.status(200).json({
             Telemetry: req.ultimacarga
         })

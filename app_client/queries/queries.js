@@ -20,6 +20,9 @@ angular.module('myApp.queries', ['ngRoute'])
         }
 
         $scope.doTelQuery = function (queryUser, start, end, typeQuery) {
+            
+            $scope.consultaCompleta = null
+            $scope.consultaUnicaVariada = null
 
             var startDate = moment(start).format(); /* Formato para la SQL */
             var startDate2 = moment(start).locale('es').format('L'); /* Formato más cómodo y leíble para el usuario */
@@ -74,13 +77,17 @@ angular.module('myApp.queries', ['ngRoute'])
                 alasql("SELECT * INTO CSV('Last Charge.csv',{headers:true}) FROM ?", [$scope.lastCharge])
             })
         }
+        
+        $scope.limpiarTablas = function() {
+            
+        }
 
         $scope.clearFilter = function () {
+            $scope.consultaCompleta = null
+            $scope.consultaUnicaVariada = null
             $scope.dataQuery = null
             $scope.startDate = null
             $scope.finalDate = null
-            $scope.consultaCompleta = null
-            $scope.consultaUnicaVariada = null
         }
 
     });

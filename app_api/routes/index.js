@@ -16,8 +16,13 @@ api.get('/obtenerRol', userCtrl.obtenerRol)
 api.get('/obtenerPerfil', userCtrl.obtenerPerfil)
 
 api.get('/logout', function(req,res){
-    sess = req.session
-    console.log(sess)
+    console.log('Deslogueando....')
+    req.session.destroy(function(err){
+        if (err) console.log('error al desloguear')
+        
+        console.log('Deslogueo exitoso')
+        res.redirect('/')
+    })
 })
 
 api.get('/station', auth.chequearSesion, stationCtrl.obtenerEstaciones)

@@ -33,12 +33,6 @@ app.factory('loginService', function ($http, $location, sessionService, $route, 
             return $promise
         },
         islogged: function () {
-            /*var $checkSessionServer=$http.post('check_session.php');
-            return $checkSessionServer;
-			
-            if(sessionService.get('user')) return true;
-            else return false;
-            */
             var $promise = $http.get('/api/obtenerRol')
             return $promise
         }

@@ -28,7 +28,7 @@ angular.module('myApp.perfil', ['ngRoute'])
         $scope.obtenerPerfil = function(){
             var $promise = $http.get('/api/obtenerPerfil')
             $promise.then(function(msg) {
-                console.log(msg)
+                //console.log(msg)
                 $scope.names = msg.data
             })
         }
@@ -41,7 +41,7 @@ angular.module('myApp.perfil', ['ngRoute'])
         };
 
         $scope.modMyPassword = function (data, id) {
-            alert("ID user: " + id);
+            //alert("ID user: " + id);
             var tipoDato = "password";
             $http.post('perfil/update.php', {
                     tipo: tipoDato,
@@ -49,14 +49,14 @@ angular.module('myApp.perfil', ['ngRoute'])
                     id: id
                 })
                 .then(function (msg) {
-                    console.log(msg.data);
+                    //console.log(msg.data);
                     //$window.location.reload();
                     $scope.names = msg.data;
                 });
         };
 
         $scope.modMyUsername = function (data, id) {
-            alert("ID user: " + id);
+            //alert("ID user: " + id);
             var tipoDato = "nombre";
             $http.post('perfil/update.php', {
                     tipo: tipoDato,
@@ -64,14 +64,14 @@ angular.module('myApp.perfil', ['ngRoute'])
                     id: id
                 })
                 .then(function (msg) {
-                    console.log(msg.data);
+                    //console.log(msg.data);
                     //$window.location.reload();           
                     $scope.names = msg.data;
                 });
         };
 
         $scope.modMyAge = function (data, id) {
-            alert("ID user: " + id);
+            //alert("ID user: " + id);
             var tipoDato = "age";
             $http.post('perfil/update.php', {
                     tipo: tipoDato,
@@ -79,14 +79,14 @@ angular.module('myApp.perfil', ['ngRoute'])
                     id: id
                 })
                 .then(function (msg) {
-                    console.log(msg.data);
+                    //console.log(msg.data);
                     //$window.location.reload();           
                     $scope.names = msg.data;
                 });
         };
 
         $scope.modMySex = function (data, id) {
-            alert("ID user: " + id);
+           // alert("ID user: " + id);
             var tipoDato = "sex";
             $http.post('perfil/update.php', {
                     tipo: tipoDato,
@@ -94,14 +94,14 @@ angular.module('myApp.perfil', ['ngRoute'])
                     id: id
                 })
                 .then(function (msg) {
-                    console.log(msg.data);
+                   // console.log(msg.data);
                     //$window.location.reload();
                     $scope.names = msg.data;
                 });
         };
 
         $scope.modMyPic = function (data, id) {
-            alert("ID user: " + id);
+            //alert("ID user: " + id);
             var tipoDato = "pic";
             var fd = new FormData();
             fd.append('tipo', tipoDato);
@@ -114,7 +114,7 @@ angular.module('myApp.perfil', ['ngRoute'])
                     }
                 })
                 .then(function (msg) {
-                    console.log(msg.data);
+                    //console.log(msg.data);
                     $scope.names = msg.data;
                     //$window.location.reload();
                 });
@@ -122,7 +122,7 @@ angular.module('myApp.perfil', ['ngRoute'])
         };
 
         $scope.modMyCar = function (brand, model, id) {
-            alert("ID user: " + id);
+           // alert("ID user: " + id);
             var tipoDato = "car";
             var car_model = brand + " " + model;
             $http.post('perfil/update.php', {
@@ -131,14 +131,14 @@ angular.module('myApp.perfil', ['ngRoute'])
                     id: id
                 })
                 .then(function (msg) {
-                    console.log(msg.data);
+                    //console.log(msg.data);
                     //$window.location.reload();
                     $scope.names = msg.data;
                 });
         }
 
         $scope.modMyConnector = function (conn_type, id) {
-            alert("ID user: " + id);
+            //alert("ID user: " + id);
             var tipoDato = "connector";
             $http.post('perfil/update.php', {
                     tipo: tipoDato,
@@ -146,7 +146,7 @@ angular.module('myApp.perfil', ['ngRoute'])
                     id: id
                 })
                 .then(function (msg) {
-                    console.log(msg.data);
+                    //console.log(msg.data);
                     //$window.location.reload();
                     $scope.names = msg.data;
                 });

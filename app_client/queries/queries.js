@@ -11,13 +11,13 @@ angular.module('myApp.queries', ['ngRoute'])
 
     .controller('queriesCtrl', function ($scope, $http) {
 
-        $scope.listStations = function () {
+        /*$scope.listStations = function () {
             var $promise = $http.get('queries/listStations.php');
             $promise.then(function (msg) {
                 console.log(msg);
                 $scope.stations = msg.data.Stations;
             })
-        }
+        }*/
 
         $scope.doTelQuery = function (queryUser, start, end, typeQuery) {
             
@@ -37,7 +37,7 @@ angular.module('myApp.queries', ['ngRoute'])
             })
 
             $promise.then(function (d) {
-                console.log(d);
+                //console.log(d);
                 if (d.data.Telemetry) {
                     $scope.consultaCompleta = d.data.Telemetry;
                     $scope.exportToExcel = function () {
@@ -63,7 +63,7 @@ angular.module('myApp.queries', ['ngRoute'])
             })
 
             $promise.then(function (d) {
-                console.log(d);
+                //console.log(d);
                 $scope.chargePoint = d.data;
             })
 
@@ -72,7 +72,7 @@ angular.module('myApp.queries', ['ngRoute'])
         $scope.exportLast = function () {
             var $promise = $http.get('/api/obtUltimaCarga')
             $promise.then(function (data) {
-                console.log(data)
+                //console.log(data)
                 $scope.lastCharge = data.data.Telemetry
                 alasql("SELECT * INTO CSV('Last Charge.csv',{headers:true}) FROM ?", [$scope.lastCharge])
             })

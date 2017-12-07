@@ -23,7 +23,7 @@ angular.module('myApp.login', ['ngRoute'])
             //var data2 = JSON.stringify(data)
             var $promise = $http.post('/api/signin', data)
             $promise.then(function(data){
-                console.log(data)
+                //console.log(data)
                 $location.path('/perfil')
                 $window.location.reload()
             })

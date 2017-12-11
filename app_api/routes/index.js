@@ -27,7 +27,7 @@ api.get('/logout', function(req,res){
 
 api.get('/station', auth.chequearSesion, stationCtrl.obtenerEstaciones)
 api.get('/station/:stationId', auth.chequearSesion, stationCtrl.obtenerEstacion)
-api.post('/station', auth.chequearSesion, auth.requerirRol("admin"), stationCtrl.crearNuevaEstacion)
+api.post('/station', /*auth.chequearSesion, auth.requerirRol("admin"),*/ stationCtrl.crearNuevaEstacion)
 api.put('/station/:stationId', auth.chequearSesion, auth.requerirRol("admin"), stationCtrl.actualizarEstacion)
 //api.delete('/station/:stationId', auth.isAuth, auth.requerirRol("admin"), stationCtrl.eliminarEstacion)
 

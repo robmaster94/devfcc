@@ -22,6 +22,18 @@ function obtenerEstaciones(req,res){
 }
 
 function crearNuevaEstacion(req,res){
+    
+    const station = new Station({
+        name: req.body.name,
+        city: req.body.city,
+        address: req.body.address,
+        masterpass: req.body.masterpass
+    })
+    
+    station.save(function(err){
+        if (err) res.status(200).send({message: err})
+    })
+    
     res.status(200).send({message: 'Prueba funcion crear estacion'})
 }
 

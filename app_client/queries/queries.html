@@ -22,7 +22,7 @@
                 <form accept-charset="utf-8" name="telemetryForm">
                     <p>
                         <select ng-model="dataQuery" class="form-control" required>
-                            <option selected></option>
+                            <option value="" selected>--Selecciona--</option>
                             <option value="all">All</option>
                             <option value="voltage">Voltage</option>
                             <option value="current">Current</option>          
@@ -57,17 +57,20 @@
                     <button class="btn btn-default btn-md" ng-click="exportLast()">Export last charge</button>
                     <button class="btn btn-default btn-md" ng-click="clearFilter()">Clear Filters</button>
                 </p>
-
-                <div ng-show="consultaCompleta && (dataQuery=='all')">
-                    <p>Query results: </p>
+                <p>Query results: </p>
+                <div ng-show="consultaCompleta && (dataQuery=='all')" style="overflow-x:auto;">
                     <table class="table table-bordered table-responsive" style="white-space: nowrap">
                         <th>Voltage</th>
-                        <th>Intensity</th>
-                        <th>Current Power</th>
+                        <th>Current</th>
+                        <th>Power Offered</th>
                         <th>Imported Active Energy</th>
                         <th>Exported Active Energy</th>
                         <th>Imported Reactive Energy</th>
                         <th>Exported Reactive Energy</th>
+                        <th>Exported Active Power</th>
+                        <th>Imported Active Power</th>
+                        <th>Exported Reactive Power</th>
+                        <th>Imported Reactive Power</th>
                         <th>Power Factor</th>
                         <th>Earth Wire Status</th>
                         <th>Station Status</th>
@@ -84,19 +87,23 @@
                             <td>{{c.exp_ae}}</td>
                             <td>{{c.imp_re}}</td>
                             <td>{{c.exp_re}}</td>
+                            <td>{{c.exp_ap}}</td>
+                            <td>{{c.imp_ap}}</td>
+                            <td>{{c.exp_rp}}</td>
+                            <td>{{c.imp_rp}}</td>
                             <td>{{c.power_factor}}</td>
                             <td>{{c.earth_wire_status}}</td>
                             <td>{{c.station_status}}</td>
                             <td>{{c.ev_battery_start_value}}</td>
                             <td>{{c.ev_battery_final_value}}</td>
-                            <td>{{c.current_time_date}}</td>
+                            <td>{{c.current_time_date | date:'dd-MM-yyyy HH:mm:ss'}}</td>
                             <td>{{c.connector_id}}</td>
 <!--                            <td>{{c.station_name}}</td>-->
                         </tr>
                     </table>
                     <p> <button ng-click="exportToExcel()" class="btn btn-md btn-success">Export</button> </p>
                 </div>
-                <div ng-show="consultaUnicaVariada && (dataQuery!='all')">
+                <div ng-show="consultaUnicaVariada && (dataQuery!='all')" style="overflow-x:auto;">
                     <table class="table table-bordered table-responsive" style="width: 50%; white-space: nowrap">
                         <th style="align-content: center">Results</th>
                         <tr ng-repeat="c in consultaUnicaVariada">

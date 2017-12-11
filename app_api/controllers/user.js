@@ -63,7 +63,7 @@ function signIn(req, res) {
         })
     } else {
         console.log('Falta la pass')
-        res.status(403).send({
+        res.status(403).json({
             message: 'Falta la pass'
         })
     }

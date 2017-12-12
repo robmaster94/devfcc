@@ -31,7 +31,7 @@ function crearNuevaEstacion(req,res){
     })
     
     station.save(function(err){
-        if (err) res.status(200).send({message: err})
+        if (err) res.status(500).send({message: err})
     })
     
     res.status(200).send({message: 'Prueba funcion crear estacion'})

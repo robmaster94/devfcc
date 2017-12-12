@@ -12,6 +12,8 @@ var contador = 0;
 
 ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
 
+    var response
+
     cb(function (socket) {
 
         socket.onopen = function (event) {
@@ -22,108 +24,165 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
 
         socket.onmessage = function (evt) {
             console.log('Recibido: ' + evt.data)
-            if (evt.data == JSON.stringify({})) {
-                console.log('Mensaje JSON vacío')
-                console.log('Heartbeat Message')
-                socket.send(JSON.stringify({
-                    "currentTime": moment()
-                }))
-            } else {
-                try {
-                    var msg = JSON.parse(evt.data)
-                    if (msg.connectorId) {
-                        if (msg.idTag) {
-                            console.log('Start Transaction Message')
-                            User.find({
-                                idTag: msg.idTag
-                            }, (err, message) => {
-                                if (err) console.log('error')
+            var msg
+            try {
+                msg = JSON.parse(evt.data)
+                console.log(msg)
+                /*console.log(recv.payload)
+                console.log(recv.id)
+                console.log(recv.uniqueId)
+                console.log(recv.action)*/
 
-                                console.log('User encontrado: ' + message)
-                                if (message != '') {
-                                    socket.send(JSON.stringify({
-                                        "transactionId": 0,
-                                        "idTagInfo": {
-                                            "status": "Accepted",
-                                            "expiryDate": msg.timestamp,
-                                            "parentIdTag": "PARENT"
-                                        }
-                                    }))
-                                } else {
-                                    socket.send(JSON.stringify({
-                                        "message": 'Usuario no autorizado'
-                                    }))
-                                }
-
-                            })
-                        } else if (msg.status) {
-                            console.log('Status Notification Message')
-                            socket.send(JSON.stringify({}))
-                        } else if (msg.transactionId == 0 || msg.transactionId) {
-                            console.log('Meter Values Message')
-                            socket.send(JSON.stringify({}))
-                            var res = TelemetryCtrl.crearRegistroTelemetria(msg)
-                            if (res == 'Proceso registro OK') {
-                                console.log('Telemetria registrada')
-                            } else {
-                                console.log('Error al guardar registro telemetria')
+                switch (msg.action) {
+                    case "Heartbeat":
+                        console.log('Mensaje JSON vacío')
+                        console.log('Heartbeat Message')
+                        response = JSON.stringify({
+                            id: 3,
+                            uniqueId: msg.uniqueId,
+                            payload: {
+                                "currentTime": moment()
                             }
+                        })
+                        socket.send(response)
+                        response = null
+                        break
+                    case "StartTransaction":
+                        console.log('Start Transaction Message')
+                        User.find({
+                            idTag: msg.payload.idTag
+                        }, (err, message) => {
+                            if (err) console.log('error')
+
+                            console.log('User encontrado: ' + message)
+                            if (message != '') {
+                                response = JSON.stringify({
+                                    id: 3,
+                                    uniqueId: msg.uniqueId,
+                                    payload: {
+                                        transactionId: 0,
+                                        idTagInfo: {
+                                            status: "Accepted",
+                                            expiryDate: msg.timestamp,
+                                            parentIdTag: "PARENT"
+                                        }
+                                    }
+                                })
+                            } else {
+                                socket.send(JSON.stringify({
+                                    "message": 'Usuario no autorizado'
+                                }))
+                            }
+                        })
+                        response = null
+                        break
+                    case "StatusNotification":
+                        console.log('Status Notification Message')
+                        response = {
+                            id: 3,
+                            uniqueId: msg.uniqueId,
+                            payload: {}
                         }
-                    } else if (msg.transactionId) {
+                        socket.send(response)
+                        response = null
+                        break
+                    case "MeterValues":
+                        console.log('Meter Values Message')
+                        //socket.send(JSON.stringify({}))
+                        var res = TelemetryCtrl.crearRegistroTelemetria(msg)
+                        if (res == 'Proceso registro OK') {
+                            console.log('Telemetria registrada')
+                        } else {
+                            console.log('Error al guardar registro telemetria')
+                        }
+                        response = JSON.stringify({
+                            id: 3,
+                            uniqueId: msg.uniqueId,
+                            payload: {}
+                        })
+                        socket.send(response)
+                        response = null
+                        break
+                    case "StopTransaction":
                         console.log('Stop Transaction Message')
                         User.find({
-                            idTag: msg.idTag
+                            idTag: msg.payload.idTag
                         }, (err, message) => {
                             if (err) console.log('error')
                             console.log('User encontrado: ' + message)
-                            //var fecha = msg.timestamp
-                            socket.send(JSON.stringify({
-                                "idTagInfo": {
-                                    "status": "Expired",
-                                    "expiryDate": msg.timestamp,
-                                    "parentIdTag": "PARENT"
+                            response = {
+                                id: 3,
+                                uniqueId: msg.uniqueId,
+                                payload: {
+                                    idTagInfo: {
+                                        status: "Expired",
+                                        expiryDate: msg.timestamp,
+                                        parentIdTag: "PARENT"
+                                    }
                                 }
-                            }))
+                            }
+                            socket.send(response)
+                            response = null
                         })
-                    } else if (msg.idTag) {
+                        break
+                    case "Authorize":
                         console.log('idTag recibido. Cotejando en BBDD...')
-                        if (msg.idTag == '11111111') {
+                        if (msg.payload.idTag == '11111111') {
                             User.find({
-                                idTag: msg.idTag
+                                idTag: msg.payload.idTag
                             }, (err, message) => {
                                 if (err) console.log('error')
+
                                 console.log('User encontrado: ' + message)
                                 var fecha = moment().format()
-                                socket.send(JSON.stringify({
-                                    "idTagInfo": {
-                                        "status": "Accepted",
-                                        "expiryDate": moment(fecha).add(30, 'days'),
-                                        "parentIdTag": "PARENT"
+                                response = {
+                                    id: 3,
+                                    uniqueId: msg.uniqueId,
+                                    payload: {
+                                        idTagInfo: {
+                                            status: "Accepted",
+                                            expiryDate: moment(fecha).add(30, 'days'),
+                                            parentIdTag: "PARENT"
+                                        }
                                     }
-                                }))
+                                }
                             })
+                            socket.send(response)
                         } else {
                             console.log('Invalid idTag')
-                            socket.send(JSON.stringify({
-                                message: 'Invalid idTag'
-                            }))
+                            response = {
+                                id: 4,
+                                uniqueId: msg.uniqueId,
+                                errorCode: 'InternalError',
+                                errorDescription: '',
+                                errorDetails: 'Invalid idTag'
+                            }
+                            socket.send(response)
+                            response = null
                         }
 
-
-                    } else if (msg.chargePointVendor) {
+                        break
+                    case "BootNotification":
                         console.log('Boot Notification Message')
-                        socket.send(JSON.stringify({
-                            "status": "Accepted",
-                            "currentTime": moment(),
-                            "heartbeatInterval": 1200
-                        }))
-                    }
-                } catch (e) {
-                    console.log('Error parsing JSON object: ' +e)
+
+                        response = JSON.stringify({
+                            id: 3,
+                            uniqueId: msg.uniqueId,
+                            payload: {
+                                status: "Accepted",
+                                currentTime: moment(),
+                                heartbeatInterval: 30
+                            }
+                        })
+                        socket.send(response)
+                        response = null
+                        break
+
                 }
+            } catch (e) {
+                console.log('Error parsing JSON object: ' + e)
             }
         }
     })
 })
-
 module.exports = ocppRouter

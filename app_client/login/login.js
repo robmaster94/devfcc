@@ -13,7 +13,8 @@ angular.module('myApp.login', ['ngRoute'])
     
         $scope.recv = '';
     
-        var socket = new WebSocket('wss://devfcc.herokuapp.com/ocpp/wallbox-sn2197')
+        //var socket = new WebSocket('wss://devfcc.herokuapp.com/ocpp/wallbox-sn2197',['ocpp1.6','ocpp1.5'])
+        var socket = new WebSocket('ws://localhost:6500/ocpp/wallbox-sn2197',['ocpp1.6','ocpp1.5'])
         
         $scope.login = function (user,pass) {
             var data = {

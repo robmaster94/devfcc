@@ -145,8 +145,22 @@ function crearRegistroTelemetria(req, res) {
 }
 
 function obtenerDatosTelemetria(req, res) {
-    res.status(200).send({
-        message: 'Prueba obtener todos los registros de telemetria'
+
+    Telemetry.find({}, {
+        "__v": 0,
+        "_id": 0
+    }).sort({
+        "current_time_date": -1
+    }).exec(function (err, data) {
+        if (err) console.log('Error al obtener telemetria: ' + err)
+
+        req.telemet = data
+        console.log(req.telemet)
+
+        res.status(200).json({
+            Telemetria: req.telemet
+        })
+
     })
 }
 

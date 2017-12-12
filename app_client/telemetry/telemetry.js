@@ -9,100 +9,113 @@ angular.module('myApp.telemetry', ['ngRoute'])
         });
 }])
 
-    .controller('telemetryCtrl', function ($scope, loginService, $window, $location) {
+    .controller('telemetryCtrl', function ($scope, loginService, $window, $location, $timeout, $http) {
 
-        $scope.conectarElectrolinera = function () {
-/*
-            var wsUri = "ws://10.162.254.65:8081/OCPPGateway15/CentralSystemService/";
-            var wsUri = "ws://192.168.1.132:80/ChargerSn_2197";
+        //var wsUri = "ws://10.162.254.65:8081/OCPPGateway15/CentralSystemService/EFACECES1";
+        //var wsUri = "ws://devfcc.herokuapp.com/ocpp/wallbox-sn2197"
+        var wsUri = "ws://localhost:6500/ocpp/wallbox-sn2197";
+        var output, random, randomst, request
+        var socket
 
-            var output;
-            var random = Math.floor(15000000 + (Math.random() * 5000000)); 
-
-            var randomst = random.toString();
-
-            var request = JSON.stringify([2, randomst, "Heartbeat", {}]);
-
-            alert("Conectándose a la URI " + wsUri + " con petición " + request);
-
-            function init() {
-                output = document.getElementById("output");
-                testWebSocket();
-            }
-
-            function testWebSocket() {
-                websocket = new WebSocket(wsUri, ['ocpp1.6']);
-                websocket.onopen = function (evt) {
-                    onOpen(evt)
-                };
-                websocket.onclose = function (evt) {
-                    onClose(evt)
-                };
-                websocket.onmessage = function (evt) {
-                    onMessage(evt)
-                };
-                websocket.onerror = function (evt) {
-                    onError(evt)
-                };
-            }
-
-            function onOpen(evt) {
-                writeToScreen(request);
-                doSend(request);
-            }
-
-            function onClose(evt) {
-                writeToScreen("BYE! :)");
-            }
-
-            function onMessage(evt) {
-                //    writeToScreen('<span style="color: blue;"> RESPONSE: ' + JSON.parse(evt.data) + '</span>');
-                writeToScreen('<span style="color: blue;"> RESPONSE: ' + evt.data + '</span>');
-                websocket.close();
-            }
-
-            function onError(evt) {
-                //   writeToScreen('<span style="color: red;"> ERROR: ' + JSON.parse(evt.data) + '</span>');
-                writeToScreen('<span style="color: red;"> ERROR: ' + evt.data + '</span>');
-            }
-
-            function doSend(message) {
-                writeToScreen("SENT: " + message);
-                websocket.send(message);
-            }
-
-            function writeToScreen(message) {
-                var pre = document.createElement("p");
-                pre.className = "lead";
-                pre.style.wordWrap = "break-word";
-                pre.innerHTML = message;
-                pruebas.appendChild(pre);
-            }
-
-            window.addEventListener("load", init, false);*/
-
-            // Create WebSocket connection.
-            const socket = new WebSocket('ws://192.168.1.132:8081/OCPPGateway15/',['ocpp1.6']);
-
-            // Connection opened
-            socket.addEventListener('open', function (event) {
-                socket.send('Hello Server!');
-            });
-
-            // Listen for messages
-            socket.addEventListener('message', function (event) {
-                console.log('Message from server ', event.data);
-            });
-        }
-        
         var connected = loginService.islogged();
-        connected.then(function(message){
-            console.log(message);
+        connected.then(function (message) {
+            //console.log(message);
             $scope.rol = message.data.Rol;
-            if(message.data.Rol == "user"){
+            if (message.data.Rol == "user") {
                 $location.path('/home');
                 //$window.location.reload();
             }
         })
+
+        $scope.heartbeat = function () {
+
+            output = document.getElementById('output')
+            random = Math.floor(15000000 + (Math.random() * 5000000));
+
+            randomst = random.toString();
+
+            request = JSON.stringify({
+                id: 2,
+                uniqueId: randomst,
+                action: "Heartbeat",
+                payload: {}
+            })
+
+            // Create WebSocket connection.
+            socket = new WebSocket(wsUri, ['ocpp1.6', 'ocpp1.5']);
+
+            // Connection opened
+            socket.addEventListener('open', function (event) {
+                socket.send(request);
+            });
+
+            // Listen for messages
+            socket.addEventListener('message', function (event) {
+               // console.log(JSON.parse(event.data));
+                var message = JSON.parse(event.data);
+                var pre = document.getElementById('res')
+                pre.className = "lead";
+                pre.style.wordWrap = "break-word";
+
+                if (message.id == 3) {
+                    pre.innerHTML = 'Disponible'
+                } else {
+                    pre.innerHTML = 'No disponible'
+                }
+                output.appendChild(pre)
+            });
+        }
+
+        $scope.meterV = function () {
+            $scope.meterValues = null
+            var $promise = $http.get('/api/telemetry')
+            $promise.then(function (data) {
+                //console.log(data)
+                $scope.meterValues = data.data.Telemetria
+                $location.path('/telemetry')
+            })
+            //$timeout($scope.meterV, 5000)
+        }
+
+        $scope.authorize = function () {
+
+            random = Math.floor(15000000 + (Math.random() * 5000000));
+
+            randomst = random.toString();
+
+            request = JSON.stringify({
+                id: 2,
+                uniqueId: randomst,
+                action: "Authorize",
+                payload: {
+                    idTag: '11111111'
+                }
+            })
+
+            // Create WebSocket connection.
+            socket = new WebSocket(wsUri, ['ocpp1.6', 'ocpp1.5']);
+
+            // Connection opened
+            socket.addEventListener('open', function (event) {
+                socket.send(request);
+            });
+
+            // Listen for messages
+            socket.addEventListener('message', function (event) {
+                //console.log(JSON.parse(event.data))
+                var message = JSON.parse(event.data)
+                if (message.message != 'Invalid idTag') {
+                    alert('id no encontrado')
+                    if (message.id == 3) {
+                        $scope.autority = 'Autorizado a cargar'
+                    } else {
+                        $scope.autority = 'No autorizado'
+                    }
+                } else {
+                    $scope.autority = 'Usuario con idTag inválido/no autorizado'
+                }
+            })
+        }
+
 
     });

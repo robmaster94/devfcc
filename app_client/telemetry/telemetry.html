@@ -10,10 +10,57 @@
     <div class="row">
         <div class="container">
             <p>Sección en desarrollo</p>
-            <p>Telemetry section. To start, press "Connect" button.
-                <button ng-click="conectarElectrolinera()">Connect</button></p>
-            <div id="output">
 
+            <div id="output">
+                <p>Comprobar disponibilidad de la estación: <button class="btn btn-sm btn-info" ng-click="heartbeat()">Check</button></p>
+                <span id="res"></span>
+            </div>
+            <div id="authorize">
+                <p>Comprobar usuario autorizado: <button class="btn btn-sm btn-info" ng-click="authorize()">Check</button></p>
+                <p>{{autority}}</p>
+            </div>
+            <div id="meterValues" style="overflow-x:auto;">
+                <table class="table">Comprobar telemetría: <button class="btn btn-sm btn-info" ng-click="meterV()">Check values</button> </table>
+                <table class="table table-bordered table-responsive" style="white-space: nowrap" ng-if="meterValues">
+                    <th>Voltage</th>
+                    <th>Current</th>
+                    <th>Power Offered</th>
+                    <th>Imported Active Energy</th>
+                    <th>Exported Active Energy</th>
+                    <th>Imported Reactive Energy</th>
+                    <th>Exported Reactive Energy</th>
+                    <th>Exported Active Power</th>
+                    <th>Imported Active Power</th>
+                    <th>Exported Reactive Power</th>
+                    <th>Imported Reactive Power</th>
+                    <th>Power Factor</th>
+                    <th>Earth Wire Status</th>
+                    <th>Station Status</th>
+                    <th>Initial EV Battery Value</th>
+                    <th>Final EV Battery Value</th>
+                    <th>Time when listed</th>
+                    <th>Connector Id</th>
+                    <tr ng-repeat="v in meterValues">
+                        <td>{{v.voltage || 'Unregistered'}}</td>
+                        <td>{{v.current || 'Unregistered'}}</td>
+                        <td>{{v.curr_power || 'Unregistered'}}</td>
+                        <td>{{v.imp_ae || 'Unregistered'}}</td>
+                        <td>{{v.exp_ae || 'Unregistered'}}</td>
+                        <td>{{v.imp_re || 'Unregistered'}}</td>
+                        <td>{{v.exp_re || 'Unregistered'}}</td>
+                        <td>{{v.exp_ap || 'Unregistered'}}</td>
+                        <td>{{v.imp_ap || 'Unregistered'}}</td>
+                        <td>{{v.exp_rp || 'Unregistered'}}</td>
+                        <td>{{v.imp_rp || 'Unregistered'}}</td>
+                        <td>{{v.power_factor || 'Unregistered'}}</td>
+                        <td>{{v.earth_wire_status || 'Unregistered'}}</td>
+                        <td>{{v.station_status || 'Unregistered'}}</td>
+                        <td>{{v.ev_battery_start_value || 'Unregistered'}}</td>
+                        <td>{{v.ev_battery_final_value || 'Unregistered'}}</td>
+                        <td>{{v.current_time_date | date:'dd-MM-yyyy HH:mm:ss'}}</td>
+                        <td>{{v.connector_id || 'Unregistered'}}</td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>

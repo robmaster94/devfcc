@@ -25,7 +25,7 @@ app.factory('loginService', function ($http, $location, sessionService, $route, 
             //sessionService.destroy('uid');
             var $promise = $http.get('/api/logout')
             $promise.then(function (data) {
-                console.log(data)
+                //console.log(data)
                 $location.path('/login')
                 $window.location.reload()
             })

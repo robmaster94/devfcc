@@ -80,24 +80,24 @@
                         <th>Connector Id</th>
 <!--                        <th>Station Name</th>-->
                         <tr ng-repeat="c in consultaCompleta">
-                            <td>{{c.voltage}}</td>
-                            <td>{{c.current}}</td>
-                            <td>{{c.curr_power}}</td>
-                            <td>{{c.imp_ae}}</td>
-                            <td>{{c.exp_ae}}</td>
-                            <td>{{c.imp_re}}</td>
-                            <td>{{c.exp_re}}</td>
-                            <td>{{c.exp_ap}}</td>
-                            <td>{{c.imp_ap}}</td>
-                            <td>{{c.exp_rp}}</td>
-                            <td>{{c.imp_rp}}</td>
-                            <td>{{c.power_factor}}</td>
-                            <td>{{c.earth_wire_status}}</td>
-                            <td>{{c.station_status}}</td>
-                            <td>{{c.ev_battery_start_value}}</td>
-                            <td>{{c.ev_battery_final_value}}</td>
+                            <td>{{c.voltage || 'Unregistered'}}</td>
+                            <td>{{c.current || 'Unregistered'}}</td>
+                            <td>{{c.curr_power || 'Unregistered'}}</td>
+                            <td>{{c.imp_ae || 'Unregistered'}}</td>
+                            <td>{{c.exp_ae || 'Unregistered'}}</td>
+                            <td>{{c.imp_re || 'Unregistered'}}</td>
+                            <td>{{c.exp_re || 'Unregistered'}}</td>
+                            <td>{{c.exp_ap || 'Unregistered'}}</td>
+                            <td>{{c.imp_ap || 'Unregistered'}}</td>
+                            <td>{{c.exp_rp || 'Unregistered'}}</td>
+                            <td>{{c.imp_rp || 'Unregistered'}}</td>
+                            <td>{{c.power_factor || 'Unregistered'}}</td>
+                            <td>{{c.earth_wire_status || 'Unregistered'}}</td>
+                            <td>{{c.station_status || 'Unregistered'}}</td>
+                            <td>{{c.ev_battery_start_value || 'Unregistered'}}</td>
+                            <td>{{c.ev_battery_final_value || 'Unregistered'}}</td>
                             <td>{{c.current_time_date | date:'dd-MM-yyyy HH:mm:ss'}}</td>
-                            <td>{{c.connector_id}}</td>
+                            <td>{{c.connector_id || 'Unregistered'}}</td>
 <!--                            <td>{{c.station_name}}</td>-->
                         </tr>
                     </table>

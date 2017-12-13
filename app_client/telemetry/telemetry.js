@@ -102,7 +102,7 @@ angular.module('myApp.telemetry', ['ngRoute'])
 
             // Listen for messages
             socket.addEventListener('message', function (event) {
-                console.log(event.data)
+                console.log(JSON.parse(event.data))
                 var message = JSON.parse(event.data)
                 if (message.message != 'Invalid idTag') {
                     alert('id no encontrado')

@@ -121,7 +121,7 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
                                     }
                                 }
                             }
-                            socket.send(response)
+                            socket.send(JSON.stringify(response))
                             response = null
                         })
                         break
@@ -147,7 +147,7 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
                                     }
                                 }
                             })
-                            socket.send(response)
+                            socket.send(JSON.stringify(response))
                         } else {
                             console.log('Invalid idTag')
                             response = {
@@ -157,7 +157,7 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
                                 errorDescription: '',
                                 errorDetails: 'Invalid idTag'
                             }
-                            socket.send(response)
+                            socket.send(JSON.stringify(response))
                             response = null
                         }
 

@@ -14,7 +14,7 @@ angular.module('myApp.login', ['ngRoute'])
         $scope.recv = '';
     
         //var socket = new WebSocket('wss://devfcc.herokuapp.com/ocpp/wallbox-sn2197',['ocpp1.6','ocpp1.5'])
-        var socket = new WebSocket('ws://localhost:6500/ocpp/wallbox-sn2197',['ocpp1.6','ocpp1.5'])
+        //var socket = new WebSocket('ws://localhost:6500/ocpp/wallbox-sn2197',['ocpp1.6','ocpp1.5'])
         
         $scope.login = function (user,pass) {
             var data = {
@@ -30,7 +30,7 @@ angular.module('myApp.login', ['ngRoute'])
             })
         }
         
-        $scope.send = function(datos){
+        /*$scope.send = function(datos){
             
             var msg = {
                 idTag: datos
@@ -47,6 +47,6 @@ angular.module('myApp.login', ['ngRoute'])
                 $scope.recv = evt.data
             }
             
-        }
+        }*/
         
     });

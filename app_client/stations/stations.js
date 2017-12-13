@@ -13,7 +13,7 @@ angular.module('myApp.stations', ['ngRoute'])
 
         var connected = loginService.islogged();
         connected.then(function(message){
-            console.log(message);
+            //console.log(message);
             $scope.rol = message.data.Rol;
             if(message.data.Rol == "user"){
                 $location.path('/home');
@@ -21,16 +21,16 @@ angular.module('myApp.stations', ['ngRoute'])
         })
 
         $scope.showStations = function () {
-            var $promise = $http.get('queries/listStations.php');
+            var $promise = $http.get('/api/station');
             $promise.then(function (message) {
-                console.log(message);
+                //console.log(message);
                 $scope.stations = message.data.Stations;
             })
         }
 
         $scope.addStation = function (name, city, address, masterpass, repmasterpass) {
             
-            var $promise = $http.post('stations/insertStation.php',{
+            var $promise = $http.post('/api/station',{
                 name:name,
                 city:city,
                 address:address,
@@ -39,7 +39,7 @@ angular.module('myApp.stations', ['ngRoute'])
             })
 
             $promise.then(function (d) {
-                console.log(d);
+                //console.log(d);
                 if (d.data.Stations) {
                     $scope.showAllStations = d.data.Stations;
                     $window.location.reload();

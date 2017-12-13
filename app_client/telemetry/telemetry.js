@@ -12,8 +12,8 @@ angular.module('myApp.telemetry', ['ngRoute'])
     .controller('telemetryCtrl', function ($scope, loginService, $window, $location, $timeout, $http) {
 
         //var wsUri = "ws://10.162.254.65:8081/OCPPGateway15/CentralSystemService/EFACECES1";
-        //var wsUri = "ws://devfcc.herokuapp.com/ocpp/wallbox-sn2197"
-        var wsUri = "ws://localhost:6500/ocpp/wallbox-sn2197";
+        var wsUri = "wss://devfcc.herokuapp.com/ocpp/wallbox-sn2197"
+        //var wsUri = "ws://localhost:6500/ocpp/wallbox-sn2197";
         var output, random, randomst, request
         var socket
 
@@ -74,7 +74,7 @@ angular.module('myApp.telemetry', ['ngRoute'])
                 $scope.meterValues = data.data.Telemetria
                 $location.path('/telemetry')
             })
-            //$timeout($scope.meterV, 5000)
+            $timeout($scope.meterV, 5000)
         }
 
         $scope.authorize = function () {

@@ -110,7 +110,7 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
                         }, (err, message) => {
                             if (err) console.log('error')
                             console.log('User encontrado: ' + message)
-                            response = {
+                            response = JSON.stringify({
                                 id: 3,
                                 uniqueId: msg.uniqueId,
                                 payload: {
@@ -120,8 +120,8 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
                                         parentIdTag: "PARENT"
                                     }
                                 }
-                            }
-                            socket.send(JSON.stringify(response))
+                            })
+                            socket.send(response)
                             response = null
                         })
                         break
@@ -135,7 +135,7 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
 
                                 console.log('User encontrado: ' + message)
                                 var fecha = moment().format()
-                                response = {
+                                response = JSON.stringify({
                                     id: 3,
                                     uniqueId: msg.uniqueId,
                                     payload: {
@@ -145,9 +145,9 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
                                             parentIdTag: "PARENT"
                                         }
                                     }
-                                }
+                                })
+                                socket.send(JSON.stringify(response))
                             })
-                            socket.send(JSON.stringify(response))
                             response = null
                         } else {
                             console.log('Invalid idTag')

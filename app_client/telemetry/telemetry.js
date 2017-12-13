@@ -104,7 +104,7 @@ angular.module('myApp.telemetry', ['ngRoute'])
             socket.addEventListener('message', function (event) {
                 //console.log(event.data)
                 var message = JSON.parse(event.data)
-                if (message.id == 3) {
+                if (message.id == '3') {
                     //alert('id no encontrado')
                     if (message.payload.idTagInfo.status == 'Accepted') {
                         $scope.autority = 'Autorizado a cargar'

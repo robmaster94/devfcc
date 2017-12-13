@@ -148,6 +148,7 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
                                 }
                             })
                             socket.send(JSON.stringify(response))
+                            response = null
                         } else {
                             console.log('Invalid idTag')
                             response = {

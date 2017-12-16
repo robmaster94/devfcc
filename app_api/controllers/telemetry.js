@@ -38,9 +38,9 @@ function crearRegistroTelemetria(req, res) {
                         break
                     case "context":
                         context = req.values[v].values[i].context
-                        if (context == 'Transaction.Begin') temp32 = value + unit
+                        /*if (context == 'Transaction.Begin') temp32 = value + unit
                         else if (context == 'Transaction.End') temp33 = value + unit
-                        else continue
+                        else continue*/
                         break
                     case "format":
                         format = req.values[v].values[i].format
@@ -103,7 +103,11 @@ function crearRegistroTelemetria(req, res) {
                                 temp14 = temp
                                 break
                             case "SoC":
-                                temp16 = temp
+                                //temp16 = temp
+                                context = req.values[v].values[i].context
+                                if (context == 'Transaction.Begin') temp32 = value + unit
+                                else if (context == 'Transaction.End') temp33 = value + unit
+                                else continue
                                 break
                         }
                         break
@@ -124,7 +128,7 @@ function crearRegistroTelemetria(req, res) {
             imp_rp: temp13,
             power_factor: temp14,
             //earth_wire_status: req.body.earth_wire_status,
-            station_status: temp16,
+            //station_status: temp16,
             ev_battery_start_value: temp32,
             ev_battery_final_value: temp33,
             connector_id: req.connectorId,

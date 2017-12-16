@@ -186,4 +186,9 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
         }
     })
 })
+
+ocppRouter.post('/wallbox-sn2197', function(req,res){
+    console.log(req)
+})
+
 module.exports = ocppRouter

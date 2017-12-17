@@ -83,14 +83,18 @@ angular.module('myApp.telemetry', ['ngRoute'])
 
             randomst = random.toString();
 
-            request = JSON.stringify({
+            /*request = JSON.stringify({
                 id: 2,
                 uniqueId: randomst,
                 action: "Authorize",
                 payload: {
                     idTag: '11111111'
                 }
-            })
+            })*/
+            
+            request = JSON.stringify([2,randomst,"Authorize",{
+                    idTag: '11111111'
+                }])
 
             // Create WebSocket connection.
             socket = new WebSocket(wsUri, ['ocpp1.6', 'ocpp1.5']);
@@ -104,15 +108,20 @@ angular.module('myApp.telemetry', ['ngRoute'])
             socket.addEventListener('message', function (event) {
                 //console.log(event.data)
                 var message = JSON.parse(event.data)
-                if (message.id == '3') {
+                //console.log(message)
+                var id = message.slice(0,1)
+                var uniqueId = message.slice(1,2)
+                var payload = message.slice(2,3)
+                //console.log(payload)
+                if (id == '3') {
                     //alert('id no encontrado')
-                    if (message.payload.idTagInfo.status == 'Accepted') {
-                        $scope.autority = 'Autorizado a cargar'
+                    if (payload['0'].idTagInfo.status == 'Accepted') {
+                        alert('Autorizado a cargar')
                     } else {
-                        $scope.autority = 'No autorizado'
+                        alert('No autorizado')
                     }
                 } else {
-                    $scope.autority = 'Usuario con idTag inválido/no autorizado'
+                    console.log('Usuario con idTag inválido/no autorizado')
                 }
             })
         }

@@ -44,13 +44,13 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
                     case "Heartbeat":
                         console.log('Mensaje JSON vacío')
                         console.log('Heartbeat Message')
-                        response = JSON.stringify({
-                            id: 3,
-                            uniqueId: uniqueId,
-                            payload: {
+                        response = JSON.stringify([
+                            3,
+                            uniqueId.toString(),
+                            {
                                 "currentTime": moment()
                             }
-                        })
+                        ])
                         socket.send(response)
                         response = null
                         break
@@ -63,10 +63,10 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
 
                             console.log('User encontrado: ' + message)
                             if (message != '') {
-                                response = JSON.stringify({
-                                    id: 3,
-                                    uniqueId: uniqueId,
-                                    payload: {
+                                response = JSON.stringify([
+                                    3,
+                                    uniqueId.toString(),
+                                    {
                                         transactionId: 0,
                                         idTagInfo: {
                                             status: "Accepted",
@@ -74,7 +74,7 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
                                             parentIdTag: "PARENT"
                                         }
                                     }
-                                })
+                                ])
                             } else {
                                 socket.send(JSON.stringify({
                                     "message": 'Usuario no autorizado'
@@ -85,12 +85,12 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
                         break
                     case "StatusNotification":
                         console.log('Status Notification Message')
-                        response = {
-                            id: 3,
-                            uniqueId: uniqueId,
-                            payload: {}
-                        }
-                        socket.send(response)
+                        response = [
+                            3,
+                            uniqueId.toString(),
+                            {}
+                        ]
+                        socket.send(JSON.stringify(response))
                         response = null
                         break
                     case "MeterValues":
@@ -99,35 +99,33 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
                         var res = TelemetryCtrl.crearRegistroTelemetria(msg)
                         if (res == 'Proceso registro OK') {
                             console.log('Telemetria registrada')
+                            response = [3, uniqueId.toString(), {}]
                         } else {
                             console.log('Error al guardar registro telemetria')
+                            response = [4, uniqueId.toString(), 'InternalError', '', 'Error saving telemetry record']
                         }
-                        response = JSON.stringify({
-                            id: 3,
-                            uniqueId: uniqueId,
-                            payload: {}
-                        })
-                        socket.send(response)
+                        
+                        socket.send(JSON.stringify(response))
                         response = null
                         break
                     case "StopTransaction":
                         console.log('Stop Transaction Message')
                         User.find({
-                            idTag: payload.idTag
+                            idTag: payload['0'].idTag
                         }, (err, message) => {
                             if (err) console.log('error')
                             console.log('User encontrado: ' + message)
-                            response = JSON.stringify({
-                                id: 3,
-                                uniqueId: uniqueId,
-                                payload: {
+                            response = JSON.stringify([
+                                3,
+                                uniqueId,
+                                {
                                     idTagInfo: {
                                         status: "Expired",
                                         expiryDate: msg.timestamp,
                                         parentIdTag: "PARENT"
                                     }
                                 }
-                            })
+                            ])
                             socket.send(response)
                             response = null
                         })
@@ -135,7 +133,7 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
                     case "Authorize":
                         console.log('idTag recibido. Cotejando en BBDD...')
                         var idTag = payload['0'].idTag
-                        console.log(idTag)
+                        //console.log(idTag)
                         if (idTag == '11111111') {
                             User.find({
                                 idTag: idTag
@@ -160,13 +158,13 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
                             response = null
                         } else {
                             console.log('Invalid idTag')
-                            response = {
-                                id: 4,
-                                uniqueId: uniqueId,
-                                errorCode: 'InternalError',
-                                errorDescription: '',
-                                errorDetails: 'Invalid idTag'
-                            }
+                            response = [
+                                4,
+                                uniqueId,
+                                'InternalError',
+                                '',
+                                'Invalid idTag'
+                            ]
                             socket.send(JSON.stringify(response))
                             response = null
                         }
@@ -174,7 +172,10 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
                         break
                     case "BootNotification":
                         console.log('Boot Notification Message')
-                        response = JSON.stringify([3, uniqueId.toString(), {
+                        response = JSON.stringify([
+                            3, 
+                            uniqueId.toString(), 
+                            {
                                 status: "Accepted",
                                 currentTime: moment(),
                                 heartbeatInterval: 30

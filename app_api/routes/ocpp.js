@@ -15,6 +15,8 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
     var response
 
     cb(function (socket) {
+        
+        socket.setKeepAlive(true,300000,360000) //Cada 5 minutos ping request, timeout maximo 6 minutos
 
         socket.onopen = function (event) {
             socket.send(JSON.stringify({
@@ -178,7 +180,7 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
                             {
                                 status: "Accepted",
                                 currentTime: moment(),
-                                heartbeatInterval: 30
+                                heartbeatInterval: 1800 //30 minutos
                             }
                         ])
                         socket.send(response)
@@ -190,11 +192,15 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
                 console.log('Error parsing JSON object: ' + e)
             }
         }
+        
+        socket.onclose = function(){
+            
+        }
     })
 })
 
 ocppRouter.post('/wallbox-sn2197', function (req, res) {
-    console.log(req)
+    console.log('Cuerpo mensaje: '+req.body)
 })
 
 module.exports = ocppRouter

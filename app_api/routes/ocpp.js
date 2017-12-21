@@ -16,7 +16,7 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
 
     cb(function (socket) {
         
-        socket.setKeepAlive(true,300000,360000) //Cada 5 minutos ping request, timeout maximo 6 minutos
+        //socket.setKeepAlive(true,300000,360000) //Cada 5 minutos ping request, timeout maximo 6 minutos
 
         socket.onopen = function (event) {
             socket.send(JSON.stringify({

@@ -196,15 +196,18 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
             
         }
     })
-    next()
+    console.log('Middleware ping-pong websocket')
 })
 
 ocppRouter.post('/wallbox-sn2197', function (req, res) {
     console.log('Cuerpo mensaje: '+req.body)
+    for (var cosa in req.body){
+        console.log(cosa+' is '+req.body[cosa])
+    }
 })
 
-ocppRouter.get('/wallbox-sn2197', function(req,res){
-    console.log('Middleware ping-pong websocket')
-})
+/*ocppRouter.get('/wallbox-sn2197', function(req,res){
+
+})*/
 
 module.exports = ocppRouter

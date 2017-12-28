@@ -16,10 +16,6 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
 
     cb(function (socket) {
         
-        for (var cosa in socket){
-            console.log(cosa+' is '+socket[cosa])
-        }
-        
         socket.onopen = function (event) {
             socket.send(JSON.stringify({
                 "message": "Welcome to OCPP back-end server!"
@@ -32,10 +28,6 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
             try {
                 msg = JSON.parse(evt.data)
                 console.log(msg)
-                /*console.log(recv.payload)
-                console.log(recv.id)
-                console.log(recv.uniqueId)
-                console.log(recv.action)*/
                 var id = msg.slice(0, 1)
                 var uniqueId = msg.slice(1, 2)
                 var action = msg.slice(2, 3)
@@ -205,8 +197,9 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
 
 ocppRouter.post('/wallbox-sn2197', function (req, res) {
     console.log('Cuerpo mensaje: '+req.body)
-    for (var cosa in req.body){
-        console.log(cosa+' is '+req.body[cosa])
+    var cuerpo = req.body
+    for (var cosa in cuerpo){
+        console.log(cosa+' is '+cuerpo[cosa])
     }
 })
 

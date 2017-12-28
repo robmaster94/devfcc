@@ -21,7 +21,6 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
             socket.send(JSON.stringify({
                 "message": "Welcome to OCPP back-end server!"
             }))
-            setTimeout(socketOcpp,50000)
         }
 
         socket.onmessage = function (evt) {
@@ -182,8 +181,9 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
                         socket.send(response)
                         console.log('Respuesta enviada: '+response)
                         response = null
+                        setTimeout(socketOcpp,50000)
+                        console.log('Timeout establecido')
                         break
-
                 }
             } catch (e) {
                 console.log('Error parsing JSON object: ' + e)

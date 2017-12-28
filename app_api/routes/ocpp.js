@@ -16,6 +16,10 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
 
     cb(function (socket) {
         
+        for (var cosa in socket){
+            console.log(cosa+' is '+socket[cosa])
+        }
+        
         socket.onopen = function (event) {
             socket.send(JSON.stringify({
                 "message": "Welcome to OCPP back-end server!"

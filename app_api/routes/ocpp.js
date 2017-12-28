@@ -6,6 +6,7 @@ const UserCtrl = require('../controllers/user')
 const Telemetry = require('../models/telemetry')
 const TelemetryCtrl = require('../controllers/telemetry')
 const moment = require('moment')
+const heartbeats = require('heartbeats')
 const ocppRouter = express.Router()
 
 var contador = 0;
@@ -14,11 +15,9 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
 
     var response
 
-    var socketOcpp = function(){
-        cb(function (socket) {
+    cb(function (socket) {
         
         socket.onopen = function (event) {
-            console.log('Welcome to OCPP back-end server')
             socket.send(JSON.stringify({
                 "message": "Welcome to OCPP back-end server!"
             }))
@@ -182,8 +181,13 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
                         socket.send(response)
                         console.log('Respuesta enviada: '+response)
                         response = null
-                        console.log('Timeout establecido')
+                        var heart = heartbeats.createHeart(50000); //latido cada 50 segundos
+                        heart.createEvent(1, function(count,last){
+                            socket.send(JSON.stringify({message:'50 segundos'}))
+                            console.log('Latido con mensaje enviado!')
+                        })
                         break
+
                 }
             } catch (e) {
                 console.log('Error parsing JSON object: ' + e)
@@ -194,10 +198,6 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
             console.log('Cerrando conexion....')
         }
     })
-        socketOcpp()
-        setTimeout(socketOcpp,50000)
-    } 
-        
 })
 
 ocppRouter.post('/wallbox-sn2197', function (req, res) {

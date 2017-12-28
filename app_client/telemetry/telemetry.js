@@ -74,7 +74,7 @@ angular.module('myApp.telemetry', ['ngRoute'])
                 $scope.meterValues = data.data.Telemetria
                 $location.path('/telemetry')
             })
-            $timeout($scope.meterV, 5000)
+            //$timeout($scope.meterV, 60000)
         }
 
         $scope.authorize = function () {
@@ -125,6 +125,30 @@ angular.module('myApp.telemetry', ['ngRoute'])
                 }
             })
         }
+        
+        $scope.carga =function(){
+            var $promise = $http.get('/api/obtUltimaCarga')
+            $promise.then(function(data){
+                $scope.ultCarga = data.data.Telemetry['0']
+                console.log($scope.ultCarga)
+                var expEnergyObt = data.data.Telemetry['0'].exp_ae
+                console.log(expEnergyObt)
+                $scope.expEnergy = Number(expEnergyObt.slice(0,2))
+                $promise = $http.get('/api/precio')
+                $promise.then(function(data2){
+                    console.log(data2)
+                    $scope.precio = data2.data.precio['0']
+                    $scope.total = data2.data.precio['0'].kWh_price * $scope.expEnergy;
+                })
+            })
+        } 
 
-
+        $scope.actualizarPrecio = function(precio){
+            console.log(precio)
+            var $promise = $http.put('/api/precio/'+precio._id, precio)
+            $promise.then(function(data){
+                console.log(data)
+            })
+        }
+        
     });

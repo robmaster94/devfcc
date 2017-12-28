@@ -6,6 +6,7 @@ const userCtrl = require('../controllers/user')
 const telemetryCtrl = require('../controllers/telemetry')
 const chargePointCtrl = require('../controllers/chargepoints')
 const stationCtrl = require('../controllers/station')
+const chargesBillCtrl = require('../controllers/chargesbill')
 const session = require('express-session')
 const api = express.Router()
 var sess;
@@ -41,5 +42,8 @@ api.get('/telemetry', auth.chequearSesion, telemetryCtrl.obtenerDatosTelemetria)
 api.post('/telemetry', auth.chequearSesion, telemetryCtrl.obtenerDatosConsultaTelemetria)
 api.post('/createTelemetry', telemetryCtrl.crearRegistroTelemetria)
 api.get('/obtUltimaCarga', auth.chequearSesion, telemetryCtrl.obtenerUltimaCarga)
+
+api.get('/precio', auth.chequearSesion, /*auth.requerirRol("admin"),*/ chargesBillCtrl.obtenerPrecioCarga)
+api.put('/precio/:priceId', auth.chequearSesion, /*auth.requerirRol("admin"), */chargesBillCtrl.actualizarPrecio)
 
 module.exports = api

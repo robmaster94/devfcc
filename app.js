@@ -46,7 +46,9 @@ app.use('/api',api, function(req,res){
     sess.user;
     sess.rol;
 })
-app.use('/ocpp', ocpp)
+app.use('/ocpp', ocpp, function(req,res){
+    res.connection.setTimeout(0)
+})
 
 app.use(function(req, res) {
   res.sendFile(path.join(__dirname, 'app_client', 'index.html'));

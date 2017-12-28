@@ -77,10 +77,6 @@ angular.module('myApp.queries', ['ngRoute'])
                 alasql("SELECT * INTO CSV('Last Charge.csv',{headers:true}) FROM ?", [$scope.lastCharge])
             })
         }
-        
-        $scope.limpiarTablas = function() {
-            
-        }
 
         $scope.clearFilter = function () {
             $scope.consultaCompleta = null

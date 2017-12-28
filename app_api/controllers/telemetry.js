@@ -310,10 +310,7 @@ function obtenerDatosConsultaTelemetria(req, res) {
 
 function obtenerUltimaCarga(req, res) {
     console.log('Obteniendo ultima carga...')
-    Telemetry.find({}, {
-        "__v": 0,
-        "_id": 0
-    }).sort({
+    Telemetry.find({}).sort({
         $natural: -1
     }).limit(1).exec(function (err, data) {
         if (err) console.log('Error al obtener ultima carga: ' + err)

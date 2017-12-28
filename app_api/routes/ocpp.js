@@ -14,7 +14,8 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
 
     var response
 
-    var socketOcpp = cb(function (socket) {
+    var socketOcpp = function(){
+        cb(function (socket) {
         
         socket.onopen = function (event) {
             console.log('Welcome to OCPP back-end server')
@@ -181,7 +182,6 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
                         socket.send(response)
                         console.log('Respuesta enviada: '+response)
                         response = null
-                        setTimeout(socketOcpp,50000)
                         console.log('Timeout establecido')
                         break
                 }
@@ -194,6 +194,9 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
             console.log('Cerrando conexion....')
         }
     })
+        setTimeout(socketOcpp,50000)
+    } 
+        
 })
 
 ocppRouter.post('/wallbox-sn2197', function (req, res) {

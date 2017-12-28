@@ -196,16 +196,17 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
             
         }
     })
+    next()
 })
 
 ocppRouter.post('/wallbox-sn2197', function (req, res) {
     console.log('Cuerpo mensaje: '+req.body)
 })
 
-ocppRouter.get('/wallbox-sn2197', function(req,res){
+/*ocppRouter.get('/wallbox-sn2197', function(req,res){
     res.connection.setTimeout(0)
     res.send(' ') //Envio mensaje vacio para comprobar
     console.log('Mensaje vacio enviado')
-})
+})*/
 
 module.exports = ocppRouter

@@ -193,7 +193,7 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
         }
         
         socket.onclose = function(){
-            
+            console.log('Cerrando conexion....')
         }
     })
     console.log('Middleware ping-pong websocket')

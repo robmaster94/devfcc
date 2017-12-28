@@ -14,12 +14,13 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
 
     var response
 
-    cb(function (socket) {
+    var socketOcpp = cb(function (socket) {
         
         socket.onopen = function (event) {
             socket.send(JSON.stringify({
                 "message": "Welcome to OCPP back-end server!"
             }))
+            setTimeout(socketOcpp,50000)
         }
 
         socket.onmessage = function (evt) {
@@ -192,7 +193,6 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
             console.log('Cerrando conexion....')
         }
     })
-    console.log('Middleware ping-pong websocket')
 })
 
 ocppRouter.post('/wallbox-sn2197', function (req, res) {

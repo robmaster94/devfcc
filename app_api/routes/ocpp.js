@@ -194,6 +194,7 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
             console.log('Cerrando conexion....')
         }
     })
+        socketOcpp()
         setTimeout(socketOcpp,50000)
     } 
         

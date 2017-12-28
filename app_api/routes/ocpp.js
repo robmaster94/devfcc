@@ -201,4 +201,8 @@ ocppRouter.post('/wallbox-sn2197', function (req, res) {
     console.log('Cuerpo mensaje: '+req.body)
 })
 
+ocppRouter.get('/wallbox-sn2197', function(req,res){
+    res.connection.setTimeout(0)
+})
+
 module.exports = ocppRouter

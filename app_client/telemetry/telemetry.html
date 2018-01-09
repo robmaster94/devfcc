@@ -16,6 +16,9 @@
                 <p>Comprobar usuario autorizado: <button class="btn btn-sm btn-info" ng-click="authorize()">Check</button></p>
                 <p>{{autority}}</p>
             </div>
+            <div class="col-md-12" ng-show="rol = 'admin'">
+                <span>Energia exportada al coche: {{expEnergy}}</span><br> Precio última carga: {{total}}€
+            </div><br>
             <table class="table">Comprobar telemetría: <button class="btn btn-sm btn-info" ng-click="meterV()">Check values</button> </table>
             <div id="meterValues" style="overflow-x:auto;">
                 <div id="pCarga" ng-if="meterValues">
@@ -23,7 +26,7 @@
                         <div class="row">
                             <div class="col-md-12" ng-init="carga()">
                                 <form editable-form name="precioForm" onaftersave="actualizarPrecio(precio)">
-                                    <span>Coste (€/kWh): <a editable-text="precio.kWh_price">{{precio.kWh_price}}</a></span><br>
+                                    <span>Coste (€/kWh): </span><a editable-text="precio.kWh_price">{{precio.kWh_price}}</a>
                                     <div class="buttons">
                                         <!-- button to show form -->
                                         <button type="button" class="btn btn-default" ng-click="precioForm.$show()" ng-show="!precioForm.$visible">Edit</button>
@@ -35,7 +38,6 @@
                                         </span>
                                     </div>
                                 </form>
-                                <span>Energia exportada al coche: {{expEnergy}}</span><br> Precio última carga: {{total}}€
                             </div>
                         </div>
                     </div>

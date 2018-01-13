@@ -11,13 +11,47 @@ const ocppRouter = express.Router()
 
 var contador = 0;
 
-ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
+var mensaje;
+
+ocppRouter.post('/wallbox-sn2197', function (req, res) {
+
+    //if (req.url == '/api/telemetry') {
+        ocppRouter.websocket('/wallbox-sn2197', (info,cb,next) => {
+            cb(function(socket){
+                
+            })
+        })
+    //}
+
+    console.log('Cuerpo mensaje: ' + req.body)
+    /*var cuerpo = req.body
+    for (var cosa in cuerpo){
+        console.log(cosa+' is '+cuerpo[cosa])
+    }*/
+
+
+})
+
+ocppRouter.get('/wallbox-sn2197', function (req, res) {
+    console.log('Cuerpo peticion: ' + req.body);
+})
+
+
+ocppRouter.websocket('/wallbox-sn2197', UserCtrl.obtenerRol, (info, cb, next) => {
 
     var response
     var heart = heartbeats.createHeart(50000); //latido cada 50 segundos
-    
+
     cb(function (socket) {
-        
+       
+       mensaje = JSON.stringify([2, "124596", "Reset", {}])
+                socket.send(mensaje)
+                console.log('Mensaje enviado!')
+                socket.onmessage = function(evt){
+                    console.log('Recibido: ' + evt.data)
+                    //socket.send(JSON.stringify([3,"124596",{status: "Accepted"}]))
+                }
+
         socket.onopen = function (event) {
             socket.send(JSON.stringify({
                 "message": "Welcome to OCPP back-end server!"
@@ -102,7 +136,7 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
                             console.log('Error al guardar registro telemetria')
                             response = [4, uniqueId.toString(), 'InternalError', '', 'Error saving telemetry record']
                         }
-                        
+
                         socket.send(JSON.stringify(response))
                         response = null
                         break
@@ -142,7 +176,7 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
                                 var fecha = moment().format()
                                 response = JSON.stringify([
                                     3,
-                                    uniqueId.toString(), 
+                                    uniqueId.toString(),
                                     {
                                         idTagInfo: {
                                             status: "Accepted",
@@ -172,8 +206,8 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
                         heart.kill()
                         console.log('Boot Notification Message')
                         response = JSON.stringify([
-                            3, 
-                            uniqueId.toString(), 
+                            3,
+                            uniqueId.toString(),
                             {
                                 status: "Accepted",
                                 currentTime: moment(),
@@ -181,11 +215,13 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
                             }
                         ])
                         socket.send(response)
-                        console.log('Respuesta enviada: '+response)
+                        console.log('Respuesta enviada: ' + response)
                         response = null
                         heart = heartbeats.createHeart(50000); //latido cada 50 segundos
-                        heart.createEvent(1, function(count,last){
-                            socket.send(JSON.stringify({message:'50 segundos'}))
+                        heart.createEvent(1, function (count, last) {
+                            socket.send(JSON.stringify({
+                                message: '50 segundos'
+                            }))
                             console.log('Latido con mensaje enviado!')
                         })
                         break
@@ -195,23 +231,11 @@ ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
                 console.log('Error parsing JSON object: ' + e)
             }
         }
-        
-        socket.onclose = function(){
+
+        socket.onclose = function () {
             console.log('Cerrando conexion....')
         }
     })
 })
-
-ocppRouter.post('/wallbox-sn2197', function (req, res) {
-    console.log('Cuerpo mensaje: '+req.body)
-    var cuerpo = req.body
-    for (var cosa in cuerpo){
-        console.log(cosa+' is '+cuerpo[cosa])
-    }
-})
-
-/*ocppRouter.get('/wallbox-sn2197', function(req,res){
-
-})*/
 
 module.exports = ocppRouter

@@ -11,8 +11,8 @@ mongoose.connect(config.db, (err,res) => {
   }
   console.log('Conexion a la base de datos establecida!')
 
- var server = app.listen(config.port, () => {
-    console.log(`API REST corriendo en http://localhost:${config.port}`)
+ var server = app.listen(config.port, (req,res) => {
+    console.log(`API REST corriendo en http://${req.ip}:${config.port}`)
   })
  server.timeout = 7200000 //2 horas timeout
 })

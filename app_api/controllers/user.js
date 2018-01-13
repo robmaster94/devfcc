@@ -86,21 +86,31 @@ function chequearPrivilegios(req, res, next) {
 
 function obtenerRol(req, res, next) {
     sess = req.session
+    if (req.url == '/ocpp/wallbox-sn2197') {
+        if(sess.user) next()
+        else res.redirect('/')
+    }
+    
     if (sess.user) {
         if (sess.rol == "user") {
             return res.status(200).send({
                 rol: 'user'
             })
+            next()
         } else if (sess.rol == "admin") {
             return res.status(200).send({
                 rol: 'admin'
             })
+            next()
         }
     } else {
         return res.status(200).send({
             message: 'Usuario no logueado'
         })
+        res.redirect('/')
+        next()
     }
+
 }
 
 function obtenerPerfil(req, res, next) {
@@ -110,7 +120,7 @@ function obtenerPerfil(req, res, next) {
         user: sess.user
     }, (err, message) => {
         if (err) console.log('error')
-        console.log('Datos usuario ' +sess.user+ ': ' + message)
+        console.log('Datos usuario ' + sess.user + ': ' + message)
         return res.status(200).send(message)
     })
 }

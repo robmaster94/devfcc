@@ -12,8 +12,8 @@ angular.module('myApp.telemetry', ['ngRoute'])
     .controller('telemetryCtrl', function ($scope, loginService, $window, $location, $timeout, $http) {
 
         //var wsUri = "ws://10.162.254.65:8081/OCPPGateway15/CentralSystemService/EFACECES1";
-        var wsUri = "wss://devfcc.herokuapp.com/ocpp/wallbox-sn2197"
-        //var wsUri = "ws://localhost:6500/ocpp/wallbox-sn2197";
+        //var wsUri = "wss://devfcc.herokuapp.com/ocpp/wallbox-sn2197"
+        var wsUri = "ws://localhost:6500/ocpp/wallbox-sn2197";
         var output, random, randomst, request
         var socket
 
@@ -148,6 +148,39 @@ angular.module('myApp.telemetry', ['ngRoute'])
             var $promise = $http.put('/api/precio/'+precio._id, precio)
             $promise.then(function(data){
                 console.log(data)
+            })
+        }
+        
+        $scope.reset = function(){
+            socket = new WebSocket(wsUri, ['ocpp1.6', 'ocpp1.5']);
+            var msg = JSON.stringify([2, "124596", "Reset", {type: "Soft"}])
+            // Create WebSocket connection.
+            socket = new WebSocket(wsUri, ['ocpp1.6', 'ocpp1.5']);
+            
+            socket.addEventListener('open', function (event) {
+                socket.send(msg)
+            });
+            
+
+            // Listen for messages
+            socket.addEventListener('message', function (event) {
+                //console.log(event.data)
+                var message = JSON.parse(event.data)
+                //console.log(message)
+                var id = message.slice(0,1)
+                var uniqueId = message.slice(1,2)
+                var payload = message.slice(2,3)
+                //console.log(payload)
+                if (id == '3') {
+                    //alert('id no encontrado')
+                    if (payload['0'].idTagInfo.status == 'Accepted') {
+                        alert('Autorizado a cargar')
+                    } else {
+                        alert('No autorizado')
+                    }
+                } else {
+                    console.log('Usuario con idTag inválido/no autorizado')
+                }
             })
         }
         

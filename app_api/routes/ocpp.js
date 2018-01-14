@@ -15,21 +15,11 @@ var mensaje;
 
 ocppRouter.post('/wallbox-sn2197', function (req, res) {
 
-    //if (req.url == '/api/telemetry') {
-        ocppRouter.websocket('/wallbox-sn2197', (info,cb,next) => {
-            cb(function(socket){
-                
-            })
-        })
-    //}
-
     console.log('Cuerpo mensaje: ' + req.body)
-    /*var cuerpo = req.body
+    var cuerpo = req.body
     for (var cosa in cuerpo){
         console.log(cosa+' is '+cuerpo[cosa])
-    }*/
-
-
+    }
 })
 
 ocppRouter.get('/wallbox-sn2197', function (req, res) {

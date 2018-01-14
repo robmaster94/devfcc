@@ -15,10 +15,10 @@ var mensaje;
 
 ocppRouter.post('/wallbox-sn2197', function (req, res) {
 
-    console.log('Cuerpo mensaje servicio: ' + req)
+    //console.log('Cuerpo mensaje servicio: ' + req)
     //var cuerpo = req.body
-    for (var cosa in req.body){
-        console.log(cosa+' is '+req.body[cosa])
+    for (var cosa in req){
+        console.log(cosa+' is '+req[cosa])
     }
 })
 

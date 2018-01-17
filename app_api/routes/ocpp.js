@@ -34,13 +34,13 @@ ocppRouter.websocket('/wallbox-sn2197',/* UserCtrl.obtenerRol, */(info, cb, next
 
     cb(function (socket) {
        
-       mensaje = JSON.stringify([2, "124596", "Reset", {}])
-                socket.send(mensaje)
-                console.log('Mensaje enviado!')
-                socket.onmessage = function(evt){
-                    console.log('Recibido: ' + evt.data)
-                    //socket.send(JSON.stringify([3,"124596",{status: "Accepted"}]))
-                }
+       /*mensaje = JSON.stringify([2, "124596", "Reset", {}])
+       socket.send(mensaje)
+       console.log('Mensaje enviado!')
+       socket.onmessage = function (evt) {
+           console.log('Recibido: ' + evt.data)
+           //socket.send(JSON.stringify([3,"124596",{status: "Accepted"}]))
+       }*/
 
         socket.onopen = function (event) {
             socket.send(JSON.stringify({
@@ -209,9 +209,7 @@ ocppRouter.websocket('/wallbox-sn2197',/* UserCtrl.obtenerRol, */(info, cb, next
                         response = null
                         heart = heartbeats.createHeart(50000); //latido cada 50 segundos
                         heart.createEvent(1, function (count, last) {
-                            socket.send(JSON.stringify({
-                                message: '50 segundos'
-                            }))
+                            socket.send(' ')
                             console.log('Latido con mensaje enviado!')
                         })
                         break

@@ -30,7 +30,7 @@ ocppRouter.get('/wallbox-sn2197', function (req, res) {
 ocppRouter.websocket('/wallbox-sn2197',/* UserCtrl.obtenerRol, */(info, cb, next) => {
 
     var response
-    var heart = heartbeats.createHeart(50000); //latido cada 50 segundos
+    var heart /*= heartbeats.createHeart(50000);*/ //latido cada 50 segundos
 
     cb(function (socket) {
        
@@ -193,7 +193,7 @@ ocppRouter.websocket('/wallbox-sn2197',/* UserCtrl.obtenerRol, */(info, cb, next
 
                         break
                     case "BootNotification":
-                        heart.kill()
+                        //heart.kill()
                         console.log('Boot Notification Message')
                         response = JSON.stringify([
                             3,
@@ -211,6 +211,7 @@ ocppRouter.websocket('/wallbox-sn2197',/* UserCtrl.obtenerRol, */(info, cb, next
                         heart.createEvent(1, function (count, last) {
                             socket.send(' ')
                             console.log('Latido con mensaje enviado!')
+                            heart.kill()
                         })
                         break
 

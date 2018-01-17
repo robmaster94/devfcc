@@ -209,7 +209,7 @@ ocppRouter.websocket('/wallbox-sn2197',/* UserCtrl.obtenerRol, */(info, cb, next
                         response = null
                         heart = heartbeats.createHeart(50000); //latido cada 50 segundos
                         heart.createEvent(1, function (count, last) {
-                            socket.send('hola')
+                            socket.send(JSON.stringify('hola'))
                             console.log('Latido con mensaje enviado!')
                             heart.kill()
                         })

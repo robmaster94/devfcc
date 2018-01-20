@@ -7,6 +7,7 @@ const Telemetry = require('../models/telemetry')
 const TelemetryCtrl = require('../controllers/telemetry')
 const moment = require('moment')
 const heartbeats = require('heartbeats')
+const sendHeartbeats = require('ws-heartbeats');
 const ocppRouter = express.Router()
 
 var contador = 0;
@@ -29,18 +30,18 @@ ocppRouter.get('/wallbox-sn2197', function (req, res) {
 
 ocppRouter.websocket('/wallbox-sn2197', /* UserCtrl.obtenerRol, */ (info, cb, next) => {
 
+    var response
+    var heart /*= heartbeats.createHeart(50000);*/ //latido cada 50 segundos
+    function heartbeat() {
+        this.isAlive = true
+    }
+
     cb(function (socket) {
 
-        var response
-        var heart /*= heartbeats.createHeart(50000);*/ //latido cada 50 segundos
-        function heartbeat() {
-            this.isAlive = true
-        }
-
         function noop() {}
-        
-        for(var cosa in socket){
-            console.log(cosa+' is '+socket[cosa])
+
+        for (var cosa in socket) {
+            console.log(cosa + ' is ' + socket[cosa])
         }
 
         /*mensaje = JSON.stringify([2, "124596", "Reset", {}])
@@ -51,14 +52,14 @@ ocppRouter.websocket('/wallbox-sn2197', /* UserCtrl.obtenerRol, */ (info, cb, ne
             //socket.send(JSON.stringify([3,"124596",{status: "Accepted"}]))
         }*/
 
-        const interval = setInterval(function ping() {
+        /*const interval = setInterval(function ping() {
             socket.clients.forEach(function each(ws) {
                 if (ws.isAlive === false) return ws.terminate()
 
                 ws.isAlive = false
                 ws.ping(noop)
             });
-        }, 30000)
+        }, 30000)*/
 
         socket.onopen = function (event) {
             socket.send(JSON.stringify({
@@ -66,10 +67,11 @@ ocppRouter.websocket('/wallbox-sn2197', /* UserCtrl.obtenerRol, */ (info, cb, ne
             }))
         }
 
-        socket.on('connection', function connection(ws) {
+        socket.on('connection', function (ws) {
             console.log('Evento conexion still-alive')
-            ws.isAlive = true;
-            ws.on('pong', heartbeat)
+            /*ws.isAlive = true;
+            ws.on('pong', heartbeat)*/
+            sendHeartbeats(ws,30,30)            
         })
 
         socket.onmessage = function (evt) {

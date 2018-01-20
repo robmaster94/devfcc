@@ -7,7 +7,6 @@ const Telemetry = require('../models/telemetry')
 const TelemetryCtrl = require('../controllers/telemetry')
 const moment = require('moment')
 const heartbeats = require('heartbeats')
-const sendHeartbeats = require('ws-heartbeats');
 const ocppRouter = express.Router()
 
 var contador = 0;
@@ -69,6 +68,7 @@ ocppRouter.websocket('/wallbox-sn2197', /* UserCtrl.obtenerRol, */ (info, cb, ne
 
         socket.on('connection', function (ws) {
             console.log('Evento conexion still-alive')
+            var sendHeartbeats = require('ws-heartbeats')(ws,30,30)
             /*ws.isAlive = true;
             ws.on('pong', heartbeat)*/
             sendHeartbeats(ws,30,30)            

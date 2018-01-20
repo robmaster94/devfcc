@@ -17,8 +17,8 @@ ocppRouter.post('/wallbox-sn2197', function (req, res) {
 
     //console.log('Cuerpo mensaje servicio: ' + req)
     //var cuerpo = req.body
-    for (var cosa in req){
-        console.log(cosa+' is '+req[cosa])
+    for (var cosa in req) {
+        console.log(cosa + ' is ' + req[cosa])
     }
 })
 
@@ -27,26 +27,46 @@ ocppRouter.get('/wallbox-sn2197', function (req, res) {
 })
 
 
-ocppRouter.websocket('/wallbox-sn2197',/* UserCtrl.obtenerRol, */(info, cb, next) => {
+ocppRouter.websocket('/wallbox-sn2197', /* UserCtrl.obtenerRol, */ (info, cb, next) => {
 
     var response
     var heart /*= heartbeats.createHeart(50000);*/ //latido cada 50 segundos
+    function heartbeat() {
+        this.isAlive = true
+    }
+
+    function noop() {}
 
     cb(function (socket) {
-       
-       /*mensaje = JSON.stringify([2, "124596", "Reset", {}])
-       socket.send(mensaje)
-       console.log('Mensaje enviado!')
-       socket.onmessage = function (evt) {
-           console.log('Recibido: ' + evt.data)
-           //socket.send(JSON.stringify([3,"124596",{status: "Accepted"}]))
-       }*/
+
+        /*mensaje = JSON.stringify([2, "124596", "Reset", {}])
+        socket.send(mensaje)
+        console.log('Mensaje enviado!')
+        socket.onmessage = function (evt) {
+            console.log('Recibido: ' + evt.data)
+            //socket.send(JSON.stringify([3,"124596",{status: "Accepted"}]))
+        }*/
+
+        const interval = setInterval(function ping() {
+            socket.clients.forEach(function each(ws) {
+                if (ws.isAlive === false) return ws.terminate()
+
+                ws.isAlive = false
+                ws.ping(noop)
+            });
+        }, 30000)
 
         socket.onopen = function (event) {
             socket.send(JSON.stringify({
                 "message": "Welcome to OCPP back-end server!"
             }))
         }
+
+        socket.on('connection', function connection(ws) {
+            console.log('Evento conexion still-alive')
+            ws.isAlive = true;
+            ws.on('pong', heartbeat)
+        })
 
         socket.onmessage = function (evt) {
             console.log('Recibido: ' + evt.data)
@@ -207,12 +227,12 @@ ocppRouter.websocket('/wallbox-sn2197',/* UserCtrl.obtenerRol, */(info, cb, next
                         socket.send(response)
                         console.log('Respuesta enviada: ' + response)
                         response = null
-                        heart = heartbeats.createHeart(50000); //latido cada 50 segundos
+                        /*heart = heartbeats.createHeart(50000); //latido cada 50 segundos
                         heart.createEvent(1, function (count, last) {
                             socket.send(JSON.stringify("ping"))
                             console.log('Latido con mensaje enviado!')
                             heart.kill()
-                        })
+                        })*/
                         break
 
                 }

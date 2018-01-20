@@ -68,7 +68,7 @@ ocppRouter.websocket('/wallbox-sn2197', /* UserCtrl.obtenerRol, */ (info, cb, ne
 
         socket.on('connection', function (ws) {
             console.log('Evento conexion still-alive')
-            var sendHeartbeats = require('ws-heartbeats')(ws,30,30)
+            var sendHeartbeats = require('ws-heartbeats')(ws)
             /*ws.isAlive = true;
             ws.on('pong', heartbeat)*/
             sendHeartbeats(ws,30,30)            
@@ -233,12 +233,12 @@ ocppRouter.websocket('/wallbox-sn2197', /* UserCtrl.obtenerRol, */ (info, cb, ne
                         socket.send(response)
                         console.log('Respuesta enviada: ' + response)
                         response = null
-                        /*heart = heartbeats.createHeart(50000); //latido cada 50 segundos
+                        heart = heartbeats.createHeart(50000); //latido cada 50 segundos
                         heart.createEvent(1, function (count, last) {
                             socket.send(JSON.stringify("ping"))
                             console.log('Latido con mensaje enviado!')
                             heart.kill()
-                        })*/
+                        })
                         break
 
                 }

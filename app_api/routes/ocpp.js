@@ -32,17 +32,17 @@ ocppRouter.websocket('/wallbox-sn2197', /* UserCtrl.obtenerRol, */ (info, cb, ne
 
     var response
     var heart /*= heartbeats.createHeart(50000);*/ //latido cada 50 segundos
-    function heartbeat() {
+/*    function heartbeat() {
         this.isAlive = true
-    }
+    }*/
 
     cb(function (socket) {
 
-        function noop() {}
+        /*function noop() {}
 
         for (var cosa in socket) {
             console.log(cosa + ' is ' + socket[cosa])
-        }
+        }*/
 
         /*mensaje = JSON.stringify([2, "124596", "Reset", {}])
         socket.send(mensaje)

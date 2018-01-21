@@ -237,7 +237,7 @@ ocppRouter.websocket('/wallbox-sn2197', /* UserCtrl.obtenerRol, */ (info, cb, ne
                         heart.createEvent(1, function (count, last) {
                             socket.send(JSON.stringify("ping"))
                             console.log('Latido con mensaje enviado!')
-                            heart.kill()
+                            //heart.kill()
                         })
                         break
 

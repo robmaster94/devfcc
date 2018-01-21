@@ -219,7 +219,7 @@ ocppRouter.websocket('/wallbox-sn2197', /* UserCtrl.obtenerRol, */ (info, cb, ne
 
                         break
                     case "BootNotification":
-                        //heart.kill()
+                        heart.kill()
                         console.log('Boot Notification Message')
                         response = JSON.stringify([
                             3,

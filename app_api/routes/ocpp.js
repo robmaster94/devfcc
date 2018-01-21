@@ -30,7 +30,7 @@ ocppRouter.get('/wallbox-sn2197', function (req, res) {
 ocppRouter.websocket('/wallbox-sn2197', /* UserCtrl.obtenerRol, */ (info, cb, next) => {
 
     var response
-    var heart /*= heartbeats.createHeart(50000);*/ //latido cada 50 segundos
+    var heart = heartbeats.createHeart(500000); //latido cada 50 segundos
 /*    function heartbeat() {
         this.isAlive = true
     }*/

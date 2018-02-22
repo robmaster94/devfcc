@@ -11,7 +11,7 @@ ocpp_serv.use(bodyParser.urlencoded({
 ocpp_serv.use(bodyParser.json())
 
 ocpp_serv.use(function (req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080')
+    res.setHeader('Access-Control-Allow-Origin', /*'http://localhost:8080'*/'https://devfcc.herokuapp.com')
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE')
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type')
     next()

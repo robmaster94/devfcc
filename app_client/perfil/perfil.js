@@ -43,10 +43,9 @@ angular.module('myApp.perfil', ['ngRoute'])
         $scope.modMyPassword = function (data, id) {
             //alert("ID user: " + id);
             var tipoDato = "password";
-            $http.post('perfil/update.php', {
+            $http.put('/api/modPerfil/'+id, {
                     tipo: tipoDato,
-                    pass: data,
-                    id: id
+                    dato: data
                 })
                 .then(function (msg) {
                     //console.log(msg.data);
@@ -58,10 +57,9 @@ angular.module('myApp.perfil', ['ngRoute'])
         $scope.modMyUsername = function (data, id) {
             //alert("ID user: " + id);
             var tipoDato = "nombre";
-            $http.post('perfil/update.php', {
+            $http.put('/api/modPerfil/'+id, {
                     tipo: tipoDato,
-                    name: data,
-                    id: id
+                    dato: data
                 })
                 .then(function (msg) {
                     //console.log(msg.data);
@@ -73,10 +71,9 @@ angular.module('myApp.perfil', ['ngRoute'])
         $scope.modMyAge = function (data, id) {
             //alert("ID user: " + id);
             var tipoDato = "age";
-            $http.post('perfil/update.php', {
+            $http.put('/api/modPerfil/'+id, {
                     tipo: tipoDato,
-                    age: data,
-                    id: id
+                    dato: data
                 })
                 .then(function (msg) {
                     //console.log(msg.data);
@@ -88,10 +85,9 @@ angular.module('myApp.perfil', ['ngRoute'])
         $scope.modMySex = function (data, id) {
            // alert("ID user: " + id);
             var tipoDato = "sex";
-            $http.post('perfil/update.php', {
+            $http.put('/api/modPerfil/'+id, {
                     tipo: tipoDato,
-                    sex: data,
-                    id: id
+                    dato: data
                 })
                 .then(function (msg) {
                    // console.log(msg.data);
@@ -124,11 +120,10 @@ angular.module('myApp.perfil', ['ngRoute'])
         $scope.modMyCar = function (brand, model, id) {
            // alert("ID user: " + id);
             var tipoDato = "car";
-            var car_model = brand + " " + model;
-            $http.post('perfil/update.php', {
+            var car_model = brand+" "+model;
+            $http.put('/api/modPerfil/'+id, {
                     tipo: tipoDato,
-                    car_model: car_model,
-                    id: id
+                    dato: car_model,
                 })
                 .then(function (msg) {
                     //console.log(msg.data);
@@ -140,10 +135,9 @@ angular.module('myApp.perfil', ['ngRoute'])
         $scope.modMyConnector = function (conn_type, id) {
             //alert("ID user: " + id);
             var tipoDato = "connector";
-            $http.post('perfil/update.php', {
+            $http.put('/api/modPerfil/'+id, {
                     tipo: tipoDato,
-                    connector: conn_type,
-                    id: id
+                    dato: conn_type,
                 })
                 .then(function (msg) {
                     //console.log(msg.data);

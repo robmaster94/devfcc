@@ -18,130 +18,122 @@ function crearRegistroTelemetria(req, res) {
     var temp, temp2
     var temp3, temp4, temp5, temp6, temp7, temp8, temp9, temp10, temp11, temp12, temp13, temp14, temp15, temp16
     var temp30, temp31, temp32, temp33
-    for (var v in req.values) {
-        timestamp = req.values[v].timestamp
-        for (var i in req.values[v].values) {
-            for (var z in req.values[v].values[i]) {
-                //console.log(z)
-                switch (z) {
-                    case "value":
-                        value = req.values[v].values[i].value
-                        //temp = value
-                        //console.log(value)
-                        //json["value"] = value
-                        break
-                    case "unit":
-                        unit = req.values[v].values[i].unit
-                        //temp2 = unit
-                        //console.log(unit)
-                        //json["unit"] = unit
-                        break
-                    case "context":
-                        context = req.values[v].values[i].context
-                        /*if (context == 'Transaction.Begin') temp32 = value + unit
-                        else if (context == 'Transaction.End') temp33 = value + unit
-                        else continue*/
-                        break
-                    case "format":
-                        format = req.values[v].values[i].format
-                        //console.log(format)
-                        //json["format"] = format
-                        //temp5 = format
-                        break
-                    case "phase":
-                        phase = req.values[v].values[i].phase
-                        //console.log(phase)
-                        //json["phase"] = phase
-                        break
-                    case "location":
-                        location = req.values[v].values[i].location
-                        temp31 = location
-                        //console.log(location)
-                        //json["location"] = location
-                        break
-                    case "measurand":
-                        measurand = req.values[v].values[i].measurand
-                        temp = value + unit
-                        switch (measurand) {
-                            case "Voltage":
-                                temp3 = temp
+
+    console.log('Telemetría recibida: ' + req.values)
+    if (!req.values) console.log('Telemetría recibida: ' + req)
+
+    var id_tipo_llamada = req.slice(0, 1)
+    var id_llamada = req.slice(1, 2)
+    var accion = req.slice(2, 3)
+    var payload = req.slice(3, 4)
+    console.log(id_tipo_llamada + ' ' + id_llamada + ' ' + accion + ' ' + payload)
+
+    for (var v in payload['0']) {
+        for (var i in payload['0'][v]) {
+            for (var z in payload['0'][v][i]) {
+                for (var y in payload['0'][v][i][z]) {
+                    for (var w in payload['0'][v][i][z][y]) {
+                        switch (w) {
+                            case "value":
+                                value = payload['0'][v][i][z][y]['value']
                                 break
-                            case "Current.Offered":
-                                temp4 = temp
+                            case "unit":
+                                unit = payload['0'][v][i][z][y]['unit']
                                 break
-                            case "Power.Offered":
-                                temp5 = temp
+                            case "context":
+                                context = payload['0'][v][i][z][y]['context']
                                 break
-                            case "Energy.Active.Export.Register":
-                                temp6 = temp
+                            case "format":
+                                format = payload['0'][v][i][z][y]['format']
                                 break
-                            case "Energy.Active.Import.Register":
-                                temp7 = temp
+                            case "phase":
+                                phase = payload['0'][v][i][z][y]['phase']
                                 break
-                            case "Energy.Reactive.Export.Register":
-                                temp8 = temp
+                            case "location":
+                                location = payload['0'][v][i][z][y]['location']
                                 break
-                            case "Energy.Reactive.Import.Register":
-                                temp9 = temp
-                                break
-                            case "Power.Active.Export":
-                                temp10 = temp
-                                break
-                            case "Power.Active.Import":
-                                temp11 = temp
-                                break
-                            case "Power.Reactive.Export":
-                                temp12 = temp
-                                break
-                            case "Power.Reactive.Import":
-                                temp13 = temp
-                                break
-                            case "Power.Factor":
-                                temp14 = temp
-                                break
-                            case "Power.Factor":
-                                temp14 = temp
-                                break
-                            case "SoC":
-                                //temp16 = temp
-                                context = req.values[v].values[i].context
-                                if (context == 'Transaction.Begin') temp32 = value + unit
-                                else if (context == 'Transaction.End') temp33 = value + unit
-                                else continue
+                            case "measurand":
+                                measurand = payload['0'][v][i][z][y]['measurand']
+                                temp = value + unit
+                                switch (measurand) {
+                                    case "Voltage":
+                                        temp3 = temp
+                                        break
+                                    case "Current.Offered":
+                                        temp4 = temp
+                                        break
+                                    case "Power.Offered":
+                                        temp5 = temp
+                                        break
+                                    case "Energy.Active.Export.Register":
+                                        temp6 = temp
+                                        break
+                                    case "Energy.Active.Import.Register":
+                                        temp7 = temp
+                                        break
+                                    case "Energy.Reactive.Export.Register":
+                                        temp8 = temp
+                                        break
+                                    case "Energy.Reactive.Import.Register":
+                                        temp9 = temp
+                                        break
+                                    case "Power.Active.Export":
+                                        temp10 = temp
+                                        break
+                                    case "Power.Active.Import":
+                                        temp11 = temp
+                                        break
+                                    case "Power.Reactive.Export":
+                                        temp12 = temp
+                                        break
+                                    case "Power.Reactive.Import":
+                                        temp13 = temp
+                                        break
+                                    case "Power.Factor":
+                                        temp14 = temp
+                                        break
+                                    case "SoC":
+                                        context = payload['0'][v][i][z][y]['context']
+                                        if (context == 'Transaction.Begin') temp32 = value + unit
+                                        else if (context == 'Transaction.End') temp33 = value + unit
+                                        else continue
+                                        break
+                                }
                                 break
                         }
-                        break
+                    }
                 }
             }
+            const telem = new Telemetry({
+                voltage: temp3,
+                current: temp4,
+                curr_power: temp5,
+                imp_ae: temp6,
+                exp_ae: temp7,
+                imp_re: temp8,
+                exp_re: temp9,
+                exp_ap: temp10,
+                imp_ap: temp11,
+                exp_rp: temp12,
+                imp_rp: temp13,
+                power_factor: temp14,
+                //earth_wire_status: req.body.earth_wire_status,
+                //station_status: temp16,
+                ev_battery_start_value: temp32,
+                ev_battery_final_value: temp33,
+                connector_id: payload['0']['connectorId'],
+                current_time_date: payload['0'][v][i]['timestamp']
+            })
+
+            console.log('Telemetria a registrar: ' + telem)
+
+            telem.save(function (err) {
+                if (err) return console.log('Error: ' + err)
+
+                console.log('Registro guardado')
+            })
         }
-        const telem = new Telemetry({
-            voltage: temp3,
-            current: temp4,
-            curr_power: temp5,
-            imp_ae: temp6,
-            exp_ae: temp7,
-            imp_re: temp8,
-            exp_re: temp9,
-            exp_ap: temp10,
-            imp_ap: temp11,
-            exp_rp: temp12,
-            imp_rp: temp13,
-            power_factor: temp14,
-            //earth_wire_status: req.body.earth_wire_status,
-            //station_status: temp16,
-            ev_battery_start_value: temp32,
-            ev_battery_final_value: temp33,
-            connector_id: req.connectorId,
-            current_time_date: timestamp
-        })
 
-        console.log(telem)
-
-        telem.save(function (err) {
-            if (err) return console.log('Error: ' + err)
-
-            console.log('Registro OK')
-        })
     }
     var res_final = 'Proceso registro OK'
     return res_final

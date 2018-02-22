@@ -11,11 +11,11 @@ angular.module('myApp.telemetry', ['ngRoute'])
 
     .controller('telemetryCtrl', function ($scope, loginService, $window, $location, $timeout, $http) {
 
-        //var wsUri = "ws://10.162.254.65:8081/OCPPGateway15/CentralSystemService/EFACECES1";
-        //var wsUri = "wss://devfcc.herokuapp.com/ocpp/wallbox-sn2197"
-        var wsUri = "ws://localhost:6500/ocpp/wallbox-sn2197";
+        
         var output, random, randomst, request
         var socket
+        
+        var wsUri = 'ws://localhost:8081/ocpp/wallbox-sn2197'
 
         var connected = loginService.islogged();
         connected.then(function (message) {
@@ -30,19 +30,14 @@ angular.module('myApp.telemetry', ['ngRoute'])
         $scope.heartbeat = function () {
 
             output = document.getElementById('output')
-            random = Math.floor(15000000 + (Math.random() * 5000000));
+            random = Math.floor(15000000 + (Math.random() * 5000000))
 
             randomst = random.toString();
 
-            request = JSON.stringify({
-                id: 2,
-                uniqueId: randomst,
-                action: "Heartbeat",
-                payload: {}
-            })
+            request = JSON.stringify([2,randomst,"Heartbeat", {}])
 
             // Create WebSocket connection.
-            socket = new WebSocket(wsUri, ['ocpp1.6', 'ocpp1.5']);
+            socket = new WebSocket(wsUri, ['ocpp1.6', 'ocpp1.5'])
 
             // Connection opened
             socket.addEventListener('open', function (event) {
@@ -68,7 +63,7 @@ angular.module('myApp.telemetry', ['ngRoute'])
 
         $scope.meterV = function () {
             $scope.meterValues = null
-            var $promise = $http.get('/api/telemetry')
+            var $promise = $http.get('http://localhost:8081/ocpp/oc_api/telemetry')
             $promise.then(function (data) {
                 //console.log(data)
                 $scope.meterValues = data.data.Telemetria
@@ -79,9 +74,10 @@ angular.module('myApp.telemetry', ['ngRoute'])
 
         $scope.authorize = function () {
 
+            request = null
             random = Math.floor(15000000 + (Math.random() * 5000000));
 
-            randomst = random.toString();
+            randomst = random.toString()
 
             /*request = JSON.stringify({
                 id: 2,
@@ -92,9 +88,7 @@ angular.module('myApp.telemetry', ['ngRoute'])
                 }
             })*/
             
-            request = JSON.stringify([2,randomst,"Authorize",{
-                    idTag: '11111111'
-                }])
+            request = JSON.stringify([2,randomst,"Authorize",{idTag: '11111111'}])
 
             // Create WebSocket connection.
             socket = new WebSocket(wsUri, ['ocpp1.6', 'ocpp1.5']);
@@ -127,14 +121,14 @@ angular.module('myApp.telemetry', ['ngRoute'])
         }
         
         $scope.carga =function(){
-            var $promise = $http.get('/api/obtUltimaCarga')
+            var $promise = $http.get('http://localhost:8081/ocpp/oc_api/obtUltimaCarga')
             $promise.then(function(data){
                 $scope.ultCarga = data.data.Telemetry['0']
                 console.log($scope.ultCarga)
                 var expEnergyObt = data.data.Telemetry['0'].exp_ae
                 console.log(expEnergyObt)
                 $scope.expEnergy = Number(expEnergyObt.slice(0,2))
-                $promise = $http.get('/api/precio')
+                $promise = $http.get('http://localhost:8081/ocpp/oc_api/precio')
                 $promise.then(function(data2){
                     console.log(data2)
                     $scope.precio = data2.data.precio['0']
@@ -145,17 +139,29 @@ angular.module('myApp.telemetry', ['ngRoute'])
 
         $scope.actualizarPrecio = function(precio){
             console.log(precio)
-            var $promise = $http.put('/api/precio/'+precio._id, precio)
+            var $promise = $http.get('http://localhost:8081/ocpp/oc_api/precio')
             $promise.then(function(data){
-                console.log(data)
+                if (!data){
+                    $promise = $http.post('http://localhost:8081/ocpp/oc_api/precio', precio)
+                    $promise.then(function(data2){
+                        console.log('Precio inicial: '+data2)
+                    })
+                }
             })
+            var $promise = $http.put('http://localhost:8081/ocpp/oc_api/precio/'+precio._id, precio)
+            console.log('Precio actualizado!')
+//            $promise.then(function(data){
+//                console.log(data)
+                $location.path('/telemetry')
+                $window.location.reload()
+//            })
         }
         
         $scope.reset = function(){
             socket = new WebSocket(wsUri, ['ocpp1.6', 'ocpp1.5']);
             var msg = JSON.stringify([2, "124596", "Reset", {type: "Soft"}])
             // Create WebSocket connection.
-            socket = new WebSocket(wsUri, ['ocpp1.6', 'ocpp1.5']);
+            //socket = new WebSocket(wsUri, ['ocpp1.6', 'ocpp1.5']);
             
             socket.addEventListener('open', function (event) {
                 socket.send(msg)

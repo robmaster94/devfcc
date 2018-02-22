@@ -27,6 +27,8 @@ const UserSchema = new Schema({
         default: Date.now()
     },
     lastLogin: Date,
+    car_model: String,
+    connector: String,
     idTag: {
         type: String/*,
         default: '11111111'*/

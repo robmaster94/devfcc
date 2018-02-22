@@ -1,39 +1,65 @@
 'use strict'
 
 const express = require('express')
+const auth = require('../middlewares/auth')
 const User = require('../models/user')
-const UserCtrl = require('../controllers/user')
-const Telemetry = require('../models/telemetry')
-const TelemetryCtrl = require('../controllers/telemetry')
+const telemetryCtrl = require('../controllers/telemetry')
+const chargesBillCtrl = require('../controllers/chargesbill')
 const moment = require('moment')
 const heartbeats = require('heartbeats')
 const ocppRouter = express.Router()
 
-var contador = 0;
+var connections = []; //Used to manage charge point websocket connections.
 
-var mensaje;
+ocppRouter.get('/oc_api/telemetry', /*auth.chequearSesion,*/ telemetryCtrl.obtenerDatosTelemetria)
+ocppRouter.post('/oc_api/telemetry', /*auth.chequearSesion,*/ telemetryCtrl.obtenerDatosConsultaTelemetria)
+ocppRouter.post('/oc_api/createTelemetry', telemetryCtrl.crearRegistroTelemetria)
+ocppRouter.get('/oc_api/obtUltimaCarga', /*auth.chequearSesion,*/ telemetryCtrl.obtenerUltimaCarga)
+
+ocppRouter.get('/oc_api/precio', /*auth.chequearSesion, /*auth.requerirRol("admin"),*/ chargesBillCtrl.obtenerPrecioCarga)
+ocppRouter.put('/oc_api/precio/:priceId', /*auth.chequearSesion, /*auth.requerirRol("admin"), */chargesBillCtrl.actualizarPrecio)
+
+/*ocppRouter.get('/wallbox-sn2197', function (req, res) {
+    //console.log('Cuerpo peticion: ' + req.body)
+    
+    //res.status(200).send({message: "Hola que tal"})
+    
+    console.log('Electrolinera conectada al webservice metodo GET')
+    
+    res.status(200).send(JSON.stringify([2,"123456","Reset", {}]))
+})
 
 ocppRouter.post('/wallbox-sn2197', function (req, res) {
 
-    //console.log('Cuerpo mensaje servicio: ' + req)
+    /*console.log('Cuerpo mensaje servicio: ' + req)
     //var cuerpo = req.body
     for (var cosa in req) {
         console.log(cosa + ' is ' + req[cosa])
     }
-})
+    
+    console.log('Electrolinera conectada al webservice metodo POST')
+    
+})*/
 
-ocppRouter.get('/wallbox-sn2197', function (req, res) {
-    console.log('Cuerpo peticion: ' + req.body);
-})
-
-
-ocppRouter.websocket('/wallbox-sn2197', /* UserCtrl.obtenerRol, */ (info, cb, next) => {
+ocppRouter.websocket('/wallbox-sn2197', (info, cb, next) => {
 
     var response
+    var array = []
     var heart = heartbeats.createHeart(500000); //latido cada 50 segundos
 /*    function heartbeat() {
         this.isAlive = true
     }*/
+    
+    var cpOrigin = info.origin
+    console.log('CP connected from '+cpOrigin)
+    
+    connections.push(cpOrigin)
+    cpOrigin = ''
+    
+    console.log('Active connections: \n')
+    for (var con in connections){
+        console.log('Client from '+con)
+    }
 
     cb(function (socket) {
 
@@ -104,13 +130,15 @@ ocppRouter.websocket('/wallbox-sn2197', /* UserCtrl.obtenerRol, */ (info, cb, ne
                         break
                     case "StartTransaction":
                         console.log('Start Transaction Message')
+                        console.log('idTag: '+payload['0'].idTag)
                         User.find({
-                            idTag: payload.idTag
+                            idTag: payload['0'].idTag
                         }, (err, message) => {
                             if (err) console.log('error')
 
-                            console.log('User encontrado: ' + message)
-                            if (message != '') {
+                            console.log(message)
+                            if (message) {
+                                console.log('User encontrado: ' + message)
                                 response = JSON.stringify([
                                     3,
                                     uniqueId.toString(),
@@ -123,10 +151,9 @@ ocppRouter.websocket('/wallbox-sn2197', /* UserCtrl.obtenerRol, */ (info, cb, ne
                                         }
                                     }
                                 ])
+                                socket.send(response)
                             } else {
-                                socket.send(JSON.stringify({
-                                    "message": 'Usuario no autorizado'
-                                }))
+                                socket.send(JSON.stringify([4, uniqueId.toString(), "InternalError","", "No autorizado"]))
                             }
                         })
                         response = null
@@ -144,7 +171,7 @@ ocppRouter.websocket('/wallbox-sn2197', /* UserCtrl.obtenerRol, */ (info, cb, ne
                     case "MeterValues":
                         console.log('Meter Values Message')
                         //socket.send(JSON.stringify({}))
-                        var res = TelemetryCtrl.crearRegistroTelemetria(msg)
+                        var res = telemetryCtrl.crearRegistroTelemetria(msg)
                         if (res == 'Proceso registro OK') {
                             console.log('Telemetria registrada')
                             response = [3, uniqueId.toString(), {}]
@@ -249,6 +276,10 @@ ocppRouter.websocket('/wallbox-sn2197', /* UserCtrl.obtenerRol, */ (info, cb, ne
 
         socket.onclose = function () {
             console.log('Cerrando conexion....')
+            for (var s in socket){
+                console.log(socket[s])
+            }
+            console.log('Origen socket: '+socket.origin)
         }
     })
 })

@@ -21,7 +21,7 @@ const TelemetrySchema = Schema({
     ev_battery_start_value: String,
     ev_battery_final_value: String,
     connector_id: String,
-    current_time_date: { type:Date, default: Date.now() }
+    current_time_date: { type:Date }
     /*
         station_id = Id de la estación. De momento solo trabajamos con 1
         Cuando se escale la aplicación, se añadirá este campo para

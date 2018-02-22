@@ -124,11 +124,52 @@ function obtenerPerfil(req, res, next) {
         return res.status(200).send(message)
     })
 }
+function modPerfil(req, res, next) {
+    sess = req.session
+    var datoaModificar = req.body.tipo
+    var dato = req.body.dato
+    var id = req.params.id
+    var datos = {}
+    console.log('El usuario '+sess.user+' con id '+id+' desea modificar su '+datoaModificar)
+    switch(datoaModificar){
+        case "name":
+            datos = {name: dato}
+            break
+        case "user":
+            datos = {user: dato}
+            break
+        case "surname":
+            datos = {surname: dato}
+        break
+        case "age":
+            datos = {age: dato}
+        break
+        case "sex":
+            datos = {sex: dato}
+        break
+        case "rol":
+            datos = {rol: dato}
+        break
+        case "car_model":
+            datos = {car_model: dato}
+        break
+        case "connector":
+            datos = {surname: dato}
+        break
+    }
+    User.findByIdAndUpdate(id, datos, (err, message) => {
+        if (err) console.log('error') 
+        
+        console.log('Dato actualizado!')
+        return res.status(200).send(message)
+    })
+}
 
 module.exports = {
     signUp,
     signIn,
     chequearPrivilegios,
     obtenerRol,
-    obtenerPerfil
+    obtenerPerfil,
+    modPerfil
 }
